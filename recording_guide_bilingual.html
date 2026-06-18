@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Egocentric Data Collection — Recording Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.7; font-size: 15px; }
+
+  /* LANGUAGE TOGGLE */
+  .l-vi { display: none !important; }
+  body.vi .l-vi { display: revert !important; }
+  body.vi .l-en { display: none !important; }
+
+  /* NAV */
+  nav { background: #fff; border-bottom: 1px solid #e5e5e5; position: sticky; top: 0; z-index: 100; padding: 0 24px; }
+  nav .nav-inner { max-width: 820px; margin: 0 auto; display: flex; align-items: center; gap: 4px; height: 52px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+  nav .nav-inner::-webkit-scrollbar { display: none; }
+  nav a { color: #555; text-decoration: none; font-size: 13px; padding: 6px 10px; border-radius: 6px; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
+  nav a:hover { background: #f0f0f0; color: #000; }
+  #lang-btn { margin-left: 8px; padding: 6px 12px; background: #1a1a2e; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; flex-shrink: 0; min-width: max-content; transition: background 0.15s; }
+  #lang-btn:hover { background: #2d2d4e; }
+
+  /* HERO */
+  .hero { background: #1a1a2e; color: #fff; padding: 48px 24px 40px; text-align: center; }
+  .hero h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .hero p { color: #aaa; font-size: 14px; }
+
+  /* MAIN */
+  main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
+  section { margin-bottom: 48px; }
+  h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; color: #111; display: flex; align-items: center; gap: 10px; }
+  h2 .icon { font-size: 20px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 20px 0 10px; color: #333; }
+  p { margin-bottom: 12px; color: #333; }
+
+  /* CARD */
+  .card { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e8e8e8; margin-bottom: 16px; }
+
+  /* NOTE BOX */
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 16px; font-size: 14px; color: #444; }
+  .note strong { color: #92400e; }
+
+  /* SPATIAL VIDEO BOX */
+  .spatial-box { background: #f0f4ff; border: 1px solid #818cf8; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .spatial-box .spatial-title { font-size: 14px; font-weight: 700; color: #3730a3; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .spatial-box ul { padding-left: 20px; }
+  .spatial-box ul li { font-size: 14px; color: #333; margin-bottom: 6px; }
+  .spatial-screenshots { display: flex; gap: 12px; margin-top: 14px; }
+  .spatial-screenshots .ss-item { flex: 1; text-align: center; }
+  .spatial-screenshots img { width: 100%; max-width: 260px; border-radius: 10px; border: 1px solid #c7d2fe; display: block; margin: 0 auto 6px; }
+  .spatial-screenshots .ss-caption { font-size: 12px; color: #555; line-height: 1.4; }
+  @media (max-width: 480px) { .spatial-screenshots { flex-direction: column; align-items: center; } .spatial-screenshots .ss-item { width: 80%; } }
+
+  /* TRIAL BOX */
+  .trial-box { background: #fff7ed; border: 1px solid #fdba74; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .trial-box .trial-title { font-size: 14px; font-weight: 700; color: #c2410c; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .trial-box p { font-size: 14px; color: #444; margin-bottom: 6px; }
+  .trial-box p:last-child { margin-bottom: 0; }
+
+  /* PRIVACY WARNING */
+  .warning { background: #fff1f2; border: 2px solid #f43f5e; border-radius: 12px; padding: 24px; }
+  .warning .warning-title { font-size: 18px; font-weight: 700; color: #be123c; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .warning ul { margin-left: 20px; }
+  .warning ul li { margin-bottom: 8px; color: #333; }
+  .warning .non-neg { margin-top: 14px; font-size: 13px; font-weight: 600; color: #be123c; background: #ffe4e6; padding: 8px 12px; border-radius: 6px; }
+
+  /* LIST */
+  ul, ol { padding-left: 22px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; color: #333; }
+  li strong { color: #111; }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f5f5f5; text-align: left; padding: 10px 14px; font-weight: 600; color: #333; border-bottom: 2px solid #e0e0e0; }
+  td { padding: 10px 14px; border-bottom: 1px solid #eee; color: #444; }
+  tr:last-child td { border-bottom: none; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #333; cursor: pointer; user-select: none; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 3px; accent-color: #22c55e; cursor: pointer; }
+  .checklist li.checked span { text-decoration: line-through; color: #aaa; }
+
+  /* TASK ACCORDION */
+  .task-list { display: flex; flex-direction: column; gap: 8px; }
+  .task-item { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; overflow: hidden; }
+  .task-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; user-select: none; font-weight: 600; font-size: 14px; color: #111; transition: background 0.15s; }
+  .task-header:hover { background: #fafafa; }
+  .task-header .task-num { background: #1a1a2e; color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; margin-right: 10px; flex-shrink: 0; }
+  .task-header .chevron { font-size: 12px; color: #999; transition: transform 0.2s; flex-shrink: 0; }
+  .task-header.open .chevron { transform: rotate(180deg); }
+  .task-body { display: none; padding: 0 18px 18px; border-top: 1px solid #f0f0f0; }
+  .task-body.open { display: block; }
+  .task-body .context { font-size: 13px; color: #666; margin: 12px 0 10px; }
+  .task-body ol { padding-left: 20px; margin-bottom: 12px; }
+  .task-body ol li { font-size: 14px; color: #333; margin-bottom: 6px; }
+  .task-body .objects { background: #f8f8f8; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #555; }
+  .task-body .objects strong { color: #333; }
+  .task-tip { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 10px 12px; margin: 10px 0; font-size: 13px; }
+
+  /* TASK CATEGORIES */
+  .task-category { margin-top: 28px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+  .task-category::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+
+  /* SAMPLE VIDEOS */
+  .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  @media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } }
+  .video-card { border-radius: 10px; text-decoration: none; display: flex; flex-direction: column; transition: transform 0.15s, box-shadow 0.15s; border: 1px solid transparent; overflow: hidden; }
+  .video-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .video-card.good { background: #f0fdf4; border-color: #86efac; }
+  .video-card.bad { background: #fff1f2; border-color: #fda4af; }
+  .vc-thumb { width: 100%; aspect-ratio: 4/3; background: #1a1a1a; position: relative; overflow: hidden; }
+  .vc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s; }
+  .vc-thumb img.loading { opacity: 0; }
+  .vc-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .vc-play-btn { width: 44px; height: 44px; background: rgba(0,0,0,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+  .vc-play-btn::after { content: "▶"; font-size: 16px; color: #fff; margin-left: 3px; }
+  .video-card.good .vc-play-btn { background: rgba(21,128,61,0.7); }
+  .video-card.bad .vc-play-btn { background: rgba(190,18,60,0.7); }
+  .vc-info { padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; }
+  .video-card .vc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .video-card.good .vc-label { color: #15803d; }
+  .video-card.bad .vc-label { color: #be123c; }
+  .video-card .vc-title { font-size: 13px; font-weight: 600; color: #111; }
+  .video-card .vc-note { font-size: 12px; color: #666; }
+
+  /* FAQ ACCORDION */
+  .faq-list { display: flex; flex-direction: column; gap: 4px; }
+  .faq-item { border: 1px solid #e8e8e8; border-radius: 8px; overflow: hidden; background: #fff; }
+  .faq-q { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 14px; color: #111; user-select: none; transition: background 0.15s; }
+  .faq-q:hover { background: #fafafa; }
+  .faq-q .chevron { font-size: 11px; color: #999; transition: transform 0.2s; flex-shrink: 0; margin-left: 12px; }
+  .faq-q.open .chevron { transform: rotate(180deg); }
+  .faq-a { display: none; padding: 12px 18px 16px; font-size: 14px; color: #444; border-top: 1px solid #f0f0f0; }
+  .faq-a.open { display: block; }
+
+  /* CAMERA SETTINGS TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 0; }
+  .tab-btn { padding: 8px 16px; border: 1px solid #e0e0e0; border-bottom: none; border-radius: 8px 8px 0 0; background: #f5f5f5; font-size: 13px; font-weight: 600; cursor: pointer; color: #666; transition: background 0.15s, color 0.15s; }
+  .tab-btn.active { background: #fff; color: #111; border-color: #e0e0e0; }
+  .tab-panel { display: none; background: #fff; border: 1px solid #e0e0e0; border-radius: 0 8px 8px 8px; padding: 18px; }
+  .tab-panel.active { display: block; }
+  .tab-panel ul { padding-left: 20px; }
+  .tab-panel ul li { font-size: 14px; color: #333; margin-bottom: 8px; }
+  .tab-panel ul li code { background: #f0f0f0; padding: 1px 5px; border-radius: 4px; font-size: 12px; color: #333; }
+
+  /* SUBMISSION */
+  .submission-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px 24px; }
+  .submission-box p { color: #1e40af; font-size: 14px; margin-bottom: 8px; }
+  .submission-box p:last-child { margin-bottom: 0; }
+  .submission-box code { background: #dbeafe; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #1d4ed8; }
+
+  /* HANGER REF */
+  .hanger-refs { display: flex; gap: 8px; margin-top: 12px; }
+  .hanger-ref { display: inline-flex; align-items: center; gap: 6px; background: #f0f0f0; border-radius: 20px; padding: 6px 14px; text-decoration: none; font-size: 13px; font-weight: 600; color: #333; transition: background 0.15s; }
+  .hanger-ref:hover { background: #e0e0e0; }
+
+  /* EXPAND ALL */
+  .expand-all-btn { display: inline-block; margin-bottom: 14px; padding: 7px 14px; background: #f0f0f0; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: #333; cursor: pointer; transition: background 0.15s; }
+  .expand-all-btn:hover { background: #e0e0e0; }
+
+
+  /* BATCH 2 NOTICE */
+  .batch2-notice { background: #f0fdf4; border: 2px solid #4ade80; border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .batch2-notice .b2-title { font-size: 16px; font-weight: 700; color: #15803d; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .batch2-notice ul { padding-left: 20px; margin-bottom: 0; }
+  .batch2-notice ul li { font-size: 14px; color: #333; margin-bottom: 6px; }
+  .batch2-notice ul li:last-child { margin-bottom: 0; }
+
+  /* TIPS BOX */
+  .tips-list { display: flex; flex-direction: column; gap: 10px; }
+  .tip-row { display: flex; gap: 14px; align-items: flex-start; background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 14px 18px; }
+  .tip-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .tip-text { font-size: 14px; color: #333; line-height: 1.6; }
+  .tip-text strong { color: #111; }
+
+  /* BATCH 2 TASK NUMBER */
+  .task-num.b2 { background: #15803d; }
+
+  /* BATCH 1 COLLAPSIBLE TOGGLE */
+  .batch1-toggle { display: flex; align-items: center; gap: 10px; background: #f5f5ff; border: 1px solid #c7d2fe; border-radius: 10px; padding: 12px 18px; cursor: pointer; font-weight: 600; font-size: 14px; color: #3730a3; width: 100%; text-align: left; margin-bottom: 8px; transition: background 0.15s; }
+  .batch1-toggle:hover { background: #e0e7ff; }
+  .batch1-toggle .b1-badge { background: #1a1a2e; color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; margin-right: 4px; }
+  .batch1-toggle .b1-chevron { margin-left: auto; font-size: 12px; color: #6366f1; transition: transform 0.2s; flex-shrink: 0; }
+  .batch1-toggle.open .b1-chevron { transform: rotate(180deg); }
+  .batch1-collapsible { display: none; }
+  .batch1-collapsible.open { display: block; }
+
+  hr { border: none; border-top: 1px solid #e8e8e8; margin: 0 0 48px; }
+  code { font-family: 'SF Mono', monospace; }
+</style>
+</head>
+<body class="vi">
+
+<nav>
+  <div class="nav-inner">
+    <a href="#about"><span class="l-en">About</span><span class="l-vi">Giới thiệu</span></a>
+    <a href="#devices"><span class="l-en">Devices</span><span class="l-vi">Thiết bị</span></a>
+    <a href="#placement"><span class="l-en">Mount</span><span class="l-vi">Gắn máy</span></a>
+    <a href="#checklist"><span class="l-en">Checklist</span><span class="l-vi">Danh sách</span></a>
+    <a href="#mistakes"><span class="l-en">Mistakes</span><span class="l-vi">Lỗi thường gặp</span></a>
+    <a href="#samples"><span class="l-en">Samples</span><span class="l-vi">Ví dụ</span></a>
+    <a href="#tasks"><span class="l-en">Tasks</span><span class="l-vi">Nhiệm vụ</span></a>
+    <a href="#protocol"><span class="l-en">Protocol</span><span class="l-vi">Quy trình</span></a>
+    <a href="#submission"><span class="l-en">Submit</span><span class="l-vi">Nộp bài</span></a>
+    <a href="#privacy"><span class="l-en">Privacy</span><span class="l-vi">Riêng tư</span></a>
+    <a href="#tips"><span class="l-en">Tips B2</span><span class="l-vi">Mẹo B2</span></a>
+    <a href="#batch2"><span class="l-en">Batch 2</span><span class="l-vi">Đợt 2</span></a>
+    <a href="#faq">FAQ</a>
+    <button id="lang-btn" onclick="toggleLang()">🇬🇧 English</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1><span class="l-en">Egocentric Data Collection</span><span class="l-vi">Thu Thập Dữ Liệu Góc Nhìn Thứ Nhất</span></h1>
+  <p><span class="l-en">Recording Guide &nbsp;·&nbsp; Data Team &nbsp;·&nbsp; June 2026</span><span class="l-vi">Hướng dẫn quay video &nbsp;·&nbsp; Data Team &nbsp;·&nbsp; Tháng 6/2026</span></p>
+</div>
+
+<main>
+
+  <!-- BATCH 2 NOTICE -->
+  <div class="batch2-notice">
+    <div class="b2-title">🆕 <span class="l-en">Batch 2 Update — June 2026</span><span class="l-vi">Cập Nhật Đợt 2 — Tháng 6/2026</span></div>
+    <div class="l-en">
+      <ul>
+        <li>12 new tasks have been added — see the <a href="#batch2" style="color:#15803d;font-weight:600;">Batch 2 Tasks</a> section below</li>
+        <li>New recording tips based on feedback — especially on <strong>head mount setup</strong> and <strong>head-tracking technique</strong></li>
+        <li>Ironing: use a <strong>table-level ironing board or mat</strong>, not a standing board</li>
+        <li>Deadline: <strong>this weekend</strong> — upload to the same Drive folder as before</li>
+      </ul>
+    </div>
+    <div class="l-vi">
+      <ul>
+        <li>12 nhiệm vụ mới đã được thêm vào — xem phần <a href="#batch2" style="color:#15803d;font-weight:600;">Nhiệm Vụ Đợt 2</a> bên dưới</li>
+        <li>Mẹo quay mới dựa trên phản hồi — đặc biệt về <strong>cách đội giá đỡ</strong> và <strong>kỹ thuật hướng đầu</strong></li>
+        <li>Là quần áo: dùng <strong>tấm đệm ủi ở mặt bàn</strong>, không dùng bàn ủi đứng</li>
+        <li>Hạn nộp: <strong>cuối tuần này</strong> — upload lên cùng thư mục Drive như trước</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h2><span class="icon">🤖</span> <span class="l-en">What Is This Project?</span><span class="l-vi">Dự Án Này Là Gì?</span></h2>
+    <div class="card">
+      <div class="l-en">
+        <p>We are collecting <strong>egocentric (first-person) video data</strong> for robotics AI training. Egocentric data means video recorded from the perspective of the person performing the task — as if the camera is the person's eyes. The goal is to capture how humans interact with everyday objects and environments so AI systems can learn to replicate these actions in robots.</p>
+        <p><strong>Your role:</strong> You will wear a camera and perform a set of everyday tasks while being recorded. You do not need any technical background. Just perform the tasks naturally, as you normally would.</p>
+        <p style="margin-bottom:0;">Robots learn by watching humans. The more diverse and high-quality the footage — different people, different angles, different objects — the better the AI can generalize to real-world situations. Your recordings will directly contribute to building smarter, more capable robotic systems.</p>
+      </div>
+      <div class="l-vi">
+        <p>Chúng tôi đang thu thập <strong>dữ liệu video góc nhìn thứ nhất</strong> để huấn luyện AI cho robot. Góc nhìn thứ nhất là video quay từ góc độ của người thực hiện nhiệm vụ, như thể camera chính là đôi mắt của họ. Mục tiêu là ghi lại cách con người tương tác với đồ vật và môi trường hàng ngày, để AI học cách mô phỏng các hành động đó trên robot.</p>
+        <p><strong>Vai trò của bạn:</strong> Bạn sẽ đeo camera và thực hiện một số nhiệm vụ thường ngày trong khi được quay. Bạn không cần có kiến thức kỹ thuật. Chỉ cần thực hiện nhiệm vụ một cách tự nhiên như bình thường.</p>
+        <p style="margin-bottom:0;">Robot học bằng cách quan sát con người. Dữ liệu càng đa dạng và chất lượng cao — nhiều người, nhiều góc độ, nhiều đồ vật khác nhau — AI càng có khả năng ứng dụng tốt vào thực tế. Video của bạn sẽ góp phần trực tiếp xây dựng các hệ thống robot thông minh hơn.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVICES -->
+  <section id="devices">
+    <h2><span class="icon">📱</span> <span class="l-en">Devices</span><span class="l-vi">Thiết Bị</span></h2>
+    <div class="l-en"><p><strong>Any smartphone can be used for this project.</strong> The baseline requirement is standard color video — no special hardware needed. Use your phone's normal camera app.</p></div>
+    <div class="l-vi"><p><strong>Bất kỳ điện thoại thông minh nào cũng có thể dùng cho dự án này.</strong> Yêu cầu tối thiểu là quay video màu tiêu chuẩn — không cần phần cứng đặc biệt. Dùng ứng dụng camera mặc định của điện thoại.</p></div>
+
+    <h3><span class="l-en">Minimum requirements</span><span class="l-vi">Yêu cầu tối thiểu</span></h3>
+    <div class="card" style="padding-top:16px;padding-bottom:16px;">
+      <ul class="l-en" style="margin-bottom:0;">
+        <li><strong>1080p (Full HD) at 30fps</strong> — must be selectable in camera settings. Do not accept 720p or lower.</li>
+        <li><strong>Rear camera only</strong> — front/selfie cameras have lower quality. Do not use.</li>
+        <li><strong>Zoom set to 1.0x</strong> — do not use 0.5x (ultrawide). The 1.0x main lens gives the best image quality and the correct field of view for this project.</li>
+        <li><strong>Horizontal (landscape) orientation</strong> — mount the phone sideways, not upright. Vertical video is not usable.</li>
+        <li><strong>Storage</strong> — at least 5–10 GB free before each session.</li>
+      </ul>
+      <ul class="l-vi" style="margin-bottom:0;">
+        <li><strong>1080p (Full HD) ở 30fps</strong> — phải chọn được trong cài đặt camera. Không dùng 720p hoặc thấp hơn.</li>
+        <li><strong>Chỉ dùng camera sau</strong> — camera trước/selfie có chất lượng thấp hơn. Không sử dụng.</li>
+        <li><strong>Zoom đặt ở 1.0x</strong> — không dùng 0.5x (góc siêu rộng). Ống kính chính 1.0x cho chất lượng hình ảnh tốt nhất và góc nhìn phù hợp cho dự án này.</li>
+        <li><strong>Hướng ngang (landscape)</strong> — gắn điện thoại nằm ngang, không dựng đứng. Video dọc không sử dụng được.</li>
+        <li><strong>Bộ nhớ</strong> — ít nhất 5–10 GB trống trước mỗi buổi quay.</li>
+      </ul>
+    </div>
+
+    <div class="spatial-box">
+      <div class="spatial-title">🌐 <span class="l-en">Spatial Video — REQUIRED for iPhone 15 Pro / Pro Max or newer</span><span class="l-vi">Spatial Video — BẮT BUỘC với iPhone 15 Pro / Pro Max trở lên</span></div>
+      <div class="l-en">
+        <p style="font-size:14px;color:#333;margin-bottom:8px;"><strong>If you have an iPhone 15 Pro, Pro Max, 16 Pro, 16 Pro Max, 17 Pro, or 17 Pro Max, you must record in Spatial Video mode.</strong> This adds a depth layer that is valuable for the project. <strong>Note: iPhone 17 Air does not support Spatial Video — record normally.</strong></p>
+        <ul style="margin-bottom:10px;">
+          <li>Go to <strong>Settings → Camera → Formats</strong> → turn on <strong>Apple Immersive Video</strong></li>
+          <li>In the camera app, swipe to <strong>SPATIAL</strong> mode (between Portrait and Pano)</li>
+          <li>The app will prompt you to <strong>rotate to landscape</strong> — do so before recording</li>
+          <li>After recording, open the clip in Photos — it should show a <strong>SPATIAL badge</strong> in the top-left corner to confirm it worked</li>
+          <li>Record at <strong>1080p 30fps</strong> — file size will be larger than standard video</li>
+        </ul>
+        <div class="spatial-screenshots">
+          <div class="ss-item">
+            <img src="https://drive.google.com/thumbnail?id=1-Q2JA602xHluGQPjavaOduglTPn2ajaV&sz=w400" alt="Camera app with SPATIAL mode selected">
+            <div class="ss-caption">Select <strong>SPATIAL</strong> in the camera app, then rotate to landscape</div>
+          </div>
+          <div class="ss-item">
+            <img src="https://drive.google.com/thumbnail?id=1a-5QsU_v29g6G9U4VDJtlMAakGUGRFMw&sz=w400" alt="SPATIAL badge in Photos">
+            <div class="ss-caption">After recording, verify the <strong>SPATIAL badge</strong> appears in Photos</div>
+          </div>
+        </div>
+      </div>
+      <div class="l-vi">
+        <p style="font-size:14px;color:#333;margin-bottom:8px;"><strong>Nếu bạn có iPhone 15 Pro, Pro Max, 16 Pro, 16 Pro Max, 17 Pro hoặc 17 Pro Max, bạn bắt buộc phải quay ở chế độ Spatial Video.</strong> Đây là lớp độ sâu có giá trị quan trọng cho dự án. <strong>Lưu ý: iPhone 17 Air không hỗ trợ Spatial Video — quay bình thường.</strong></p>
+        <ul style="margin-bottom:10px;">
+          <li>Vào <strong>Cài đặt → Camera → Định dạng</strong> → bật <strong>Apple Immersive Video</strong></li>
+          <li>Trong ứng dụng camera, vuốt sang chế độ <strong>SPATIAL</strong> (giữa Portrait và Pano)</li>
+          <li>Ứng dụng sẽ yêu cầu <strong>xoay máy sang ngang</strong> — hãy xoay trước khi bấm quay</li>
+          <li>Sau khi quay xong, mở clip trong Ảnh — phải thấy <strong>badge SPATIAL</strong> ở góc trên bên trái để xác nhận đã thành công</li>
+          <li>Quay ở <strong>1080p 30fps</strong> — dung lượng file sẽ lớn hơn video thông thường</li>
+        </ul>
+        <div class="spatial-screenshots">
+          <div class="ss-item">
+            <img src="https://drive.google.com/thumbnail?id=1-Q2JA602xHluGQPjavaOduglTPn2ajaV&sz=w400" alt="Chọn chế độ SPATIAL trong camera">
+            <div class="ss-caption">Chọn <strong>SPATIAL</strong> trong ứng dụng camera, sau đó xoay máy sang ngang</div>
+          </div>
+          <div class="ss-item">
+            <img src="https://drive.google.com/thumbnail?id=1a-5QsU_v29g6G9U4VDJtlMAakGUGRFMw&sz=w400" alt="Badge SPATIAL trong Ảnh">
+            <div class="ss-caption">Sau khi quay, kiểm tra <strong>badge SPATIAL</strong> hiện trong ứng dụng Ảnh</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAMERA PLACEMENT -->
+  <section id="placement">
+    <h2><span class="icon">📷</span> <span class="l-en">Camera Placement</span><span class="l-vi">Gắn Camera</span></h2>
+    <div class="l-en"><p>The lens should face <strong>forward and slightly downward</strong> toward the work surface — not straight ahead at eye level. Before recording, hold your arms in the working position and check that both hands are visible on screen.</p></div>
+    <div class="l-vi"><p>Ống kính phải hướng <strong>về phía trước và hơi chúc xuống</strong> về phía bề mặt làm việc — không nhìn thẳng ngang tầm mắt. Trước khi quay, giữ tay ở tư thế làm việc và kiểm tra xem cả hai tay có hiện rõ trong khung hình không.</p></div>
+
+    <h3><span class="l-en">Recording environment</span><span class="l-vi">Môi trường quay</span></h3>
+    <div class="card" style="padding-top:16px;padding-bottom:16px;">
+      <ul class="l-en" style="margin-bottom:0;">
+        <li><strong>Location:</strong> Any clean, well-lit indoor space matching the task — kitchen, bedroom, desk, shelving area, etc.</li>
+        <li><strong>Lighting:</strong> Natural or bright indoor light; avoid strong shadows on hands and objects.</li>
+        <li><strong>Noise:</strong> Record in a quiet environment. Turn off fans, air conditioners, or loud appliances if possible. Background noise degrades audio quality used for action recognition.</li>
+        <li><strong>Background:</strong> A realistic, functional environment — not a sterile or empty background.</li>
+        <li><strong>Objects:</strong> Common household items as specified per task. You may use your own items as long as they match the category.</li>
+      </ul>
+      <ul class="l-vi" style="margin-bottom:0;">
+        <li><strong>Địa điểm:</strong> Không gian trong nhà sạch sẽ, đủ ánh sáng và phù hợp với nhiệm vụ — bếp, phòng ngủ, bàn làm việc, khu vực kệ hàng, v.v.</li>
+        <li><strong>Ánh sáng:</strong> Ánh sáng tự nhiên hoặc đèn trong nhà đủ sáng; tránh bóng tối đổ mạnh lên tay và đồ vật.</li>
+        <li><strong>Tiếng ồn:</strong> Quay trong môi trường yên tĩnh. Tắt quạt, máy lạnh hoặc các thiết bị ồn nếu có thể. Tiếng ồn nền làm giảm chất lượng âm thanh dùng để nhận dạng hành động.</li>
+        <li><strong>Bối cảnh:</strong> Môi trường thực tế, có đồ dùng thật — không phải nền trắng trống hay không gian vô trùng.</li>
+        <li><strong>Đồ vật:</strong> Dụng cụ gia đình thông thường theo yêu cầu từng nhiệm vụ. Bạn có thể dùng đồ của mình miễn là phù hợp với danh mục.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section id="checklist">
+    <h2><span class="icon">✅</span> <span class="l-en">Before You Start — Checklist</span><span class="l-vi">Trước Khi Bắt Đầu — Danh Sách Kiểm Tra</span></h2>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:16px;">Run through this before every session. Tap each item to check it off.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:16px;">Kiểm tra danh sách này trước mỗi buổi quay. Nhấn vào từng mục để đánh dấu hoàn thành.</p></div>
+    <div class="card">
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Camera set to 1080p at 30fps (rear camera)</span><span class="l-vi">Camera đặt ở 1080p, 30fps (camera sau)</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Zoom set to <strong>1.0x</strong> — not 0.5x (ultrawide)</span><span class="l-vi">Zoom đặt ở <strong>1.0x</strong> — không dùng 0.5x (góc siêu rộng)</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">At least 5–10 GB of storage free on your phone</span><span class="l-vi">Điện thoại còn ít nhất 5–10 GB bộ nhớ trống</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Phone is mounted horizontally (landscape), not upright</span><span class="l-vi">Điện thoại gắn nằm ngang (landscape), không dựng đứng</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Mount is secure and the lens points forward and slightly downward</span><span class="l-vi">Giá đỡ chắc chắn, ống kính hướng về phía trước và hơi chúc xuống</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Both hands are visible in frame when arms are in the natural working position</span><span class="l-vi">Cả hai tay hiện trong khung hình khi tay ở tư thế làm việc tự nhiên</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Room is well-lit — no harsh shadows or backlight</span><span class="l-vi">Phòng đủ sáng — không có bóng đổ mạnh hoặc ngược sáng</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Environment is quiet — fans and loud appliances turned off</span><span class="l-vi">Môi trường yên tĩnh — quạt và thiết bị ồn đã tắt</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">All objects for the task are gathered and in place before you press record</span><span class="l-vi">Tất cả đồ vật cho nhiệm vụ đã chuẩn bị sẵn trước khi nhấn quay</span></span></li>
+        <li onclick="toggleCheck(this)"><input type="checkbox"> <span><span class="l-en">Google Drive link ready to upload after each clip</span><span class="l-vi">Đã có link Google Drive để tải lên sau mỗi clip</span></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section id="mistakes">
+    <h2><span class="icon">⚠️</span> <span class="l-en">Common Mistakes to Avoid</span><span class="l-vi">Những Lỗi Thường Gặp Cần Tránh</span></h2>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:16px;">Read this before you start recording.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:16px;">Đọc kỹ trước khi bắt đầu quay.</p></div>
+    <div class="card" style="padding-top:16px;padding-bottom:16px;">
+      <ul class="l-en" style="margin-bottom:0;">
+        <li><strong>Hands out of frame</strong> — the most common issue. Before every clip, hold your arms in the working position and verify both hands are visible on screen.</li>
+        <li><strong>Wrong zoom level</strong> — always set to <strong>1.0x</strong>. Using 0.5x (ultrawide) distorts the image and is not usable for training.</li>
+        <li><strong>Camera pointing too high</strong> — the lens should face slightly downward toward the workspace, not straight ahead. Adjust the mount angle.</li>
+        <li><strong>Poor lighting</strong> — if the room looks dim on your screen, turn on more lights or move closer to a window. Avoid recording with a bright light source behind you.</li>
+        <li><strong>Background noise</strong> — turn off fans, air conditioners, or loud appliances before recording. Noise makes audio unusable for action recognition.</li>
+        <li><strong>Recording too short</strong> — complete the full task before stopping. A clip that ends halfway through is not usable.</li>
+        <li><strong>Pausing mid-task</strong> — record each attempt as one continuous clip. Do not pause and resume.</li>
+        <li><strong>Acting for the camera</strong> — do the task the way you normally would. Do not slow down or exaggerate movements.</li>
+        <li><strong>Starting the recording late</strong> — press record 2–3 seconds before you begin the task.</li>
+        <li><strong>Recording in portrait (vertical) mode</strong> — always mount the phone horizontally. Vertical video is not usable.</li>
+      </ul>
+      <ul class="l-vi" style="margin-bottom:0;">
+        <li><strong>Tay ra ngoài khung hình</strong> — lỗi phổ biến nhất. Trước mỗi clip, giữ tay ở tư thế làm việc và kiểm tra xem cả hai tay có hiện rõ trong màn hình không.</li>
+        <li><strong>Sai mức zoom</strong> — luôn đặt <strong>1.0x</strong>. Dùng 0.5x (góc siêu rộng) làm méo hình và không dùng được cho huấn luyện AI.</li>
+        <li><strong>Camera hướng quá cao</strong> — ống kính phải hướng hơi chúc xuống về phía không gian làm việc, không nhìn thẳng ngang. Điều chỉnh góc giá đỡ.</li>
+        <li><strong>Ánh sáng kém</strong> — nếu phòng trông tối trên màn hình, bật thêm đèn hoặc di chuyển gần cửa sổ hơn. Tránh quay khi có nguồn sáng mạnh phía sau bạn.</li>
+        <li><strong>Tiếng ồn nền</strong> — tắt quạt, máy lạnh hoặc thiết bị ồn trước khi quay. Tiếng ồn làm âm thanh không thể dùng cho nhận dạng hành động.</li>
+        <li><strong>Quay quá ngắn</strong> — hoàn thành toàn bộ nhiệm vụ trước khi dừng. Clip dừng giữa chừng không sử dụng được.</li>
+        <li><strong>Dừng giữa chừng</strong> — quay mỗi lần thực hiện thành một clip liên tục. Không tạm dừng rồi tiếp tục.</li>
+        <li><strong>Diễn xuất vì camera</strong> — thực hiện nhiệm vụ như bình thường. Không làm chậm hay phóng đại động tác.</li>
+        <li><strong>Bắt đầu quay muộn</strong> — nhấn quay 2–3 giây trước khi bắt đầu nhiệm vụ.</li>
+        <li><strong>Quay ở chế độ dọc</strong> — luôn gắn điện thoại nằm ngang. Video dọc không sử dụng được.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SAMPLE VIDEOS -->
+  <section id="samples">
+    <h2><span class="icon">🎬</span> <span class="l-en">Sample Videos</span><span class="l-vi">Video Mẫu</span></h2>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:16px;">Watch these before your first session to understand what a good recording looks like — and what to avoid.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:16px;">Xem các video này trước buổi quay đầu tiên để hiểu thế nào là một video tốt — và những gì cần tránh.</p></div>
+
+    <h3><span class="l-en">Good examples</span><span class="l-vi">Ví dụ tốt</span></h3>
+    <div class="video-grid">
+      <a href="https://www.tiktok.com/@ragadioedz/video/7649622054798593300" target="_blank" class="video-card good">
+        <div class="vc-thumb"><img id="tt-thumb-1" class="loading" alt="Sample 1"><div class="vc-play"><div class="vc-play-btn"></div></div></div>
+        <div class="vc-info">
+          <div class="vc-label"><span class="l-en">Good example</span><span class="l-vi">Ví dụ tốt</span></div>
+          <div class="vc-title">Sample 1</div>
+          <div class="vc-note"><span class="l-en">Watch on TikTok →</span><span class="l-vi">Xem trên TikTok →</span></div>
+        </div>
+      </a>
+      <a href="https://www.tiktok.com/@daleballesteros/video/7621106943804919060" target="_blank" class="video-card good">
+        <div class="vc-thumb"><img id="tt-thumb-2" class="loading" alt="Sample 2"><div class="vc-play"><div class="vc-play-btn"></div></div></div>
+        <div class="vc-info">
+          <div class="vc-label"><span class="l-en">Good example</span><span class="l-vi">Ví dụ tốt</span></div>
+          <div class="vc-title">Sample 2</div>
+          <div class="vc-note"><span class="l-en">Watch on TikTok →</span><span class="l-vi">Xem trên TikTok →</span></div>
+        </div>
+      </a>
+      <a href="https://www.tiktok.com/@lractoolsnamadami/video/7620714892789550356" target="_blank" class="video-card good">
+        <div class="vc-thumb"><img id="tt-thumb-3" class="loading" alt="Sample 3"><div class="vc-play"><div class="vc-play-btn"></div></div></div>
+        <div class="vc-info">
+          <div class="vc-label"><span class="l-en">Good example</span><span class="l-vi">Ví dụ tốt</span></div>
+          <div class="vc-title">Sample 3</div>
+          <div class="vc-note"><span class="l-en">Watch on TikTok →</span><span class="l-vi">Xem trên TikTok →</span></div>
+        </div>
+      </a>
+    </div>
+
+    <h3><span class="l-en">What not to do</span><span class="l-vi">Ví dụ sai</span></h3>
+    <div class="video-grid">
+      <a href="https://drive.google.com/file/d/16crOdUjELTAuu3miR67OIWOLOdfvncNR/view?usp=sharing" target="_blank" class="video-card bad">
+        <div class="vc-thumb"><img src="https://drive.google.com/thumbnail?id=16crOdUjELTAuu3miR67OIWOLOdfvncNR&sz=w400" alt="Bad example 1" onload="this.classList.remove('loading')" onerror="this.closest('.vc-thumb').style.background='#2a0a0a'"><div class="vc-play"><div class="vc-play-btn"></div></div></div>
+        <div class="vc-info">
+          <div class="vc-label"><span class="l-en">Bad example</span><span class="l-vi">Ví dụ sai</span></div>
+          <div class="vc-title"><span class="l-en">Bad lighting + hands out of frame</span><span class="l-vi">Ánh sáng kém + tay ra ngoài khung hình</span></div>
+          <div class="vc-note"><span class="l-en">Camera angle too close — hands frequently leave the frame</span><span class="l-vi">Góc camera quá gần nên tay thường xuyên ra ngoài khung hình</span></div>
+        </div>
+      </a>
+      <a href="https://drive.google.com/file/d/1CEUZ_Ya-3O3FyxXa4QDJHy1hb81SA-x5/view?usp=sharing" target="_blank" class="video-card bad">
+        <div class="vc-thumb"><img src="https://drive.google.com/thumbnail?id=1CEUZ_Ya-3O3FyxXa4QDJHy1hb81SA-x5&sz=w400" alt="Bad example 2" onload="this.classList.remove('loading')" onerror="this.closest('.vc-thumb').style.background='#2a0a0a'"><div class="vc-play"><div class="vc-play-btn"></div></div></div>
+        <div class="vc-info">
+          <div class="vc-label"><span class="l-en">Bad example</span><span class="l-vi">Ví dụ sai</span></div>
+          <div class="vc-title"><span class="l-en">Ambiguous task</span><span class="l-vi">Nhiệm vụ không rõ ràng</span></div>
+          <div class="vc-note"><span class="l-en">Lighting is fine but it's unclear what the person is trying to do</span><span class="l-vi">Ánh sáng ổn nhưng không rõ người quay đang làm gì</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- TASKS -->
+  <section id="tasks">
+    <h2><span class="icon">📋</span> <span class="l-en">Tasks to Record</span><span class="l-vi">Nhiệm Vụ Cần Quay</span></h2>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:8px;">Each task is a <strong>complete, realistic activity</strong>. Perform it naturally — the steps are a guide, not a script.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:8px;">Mỗi nhiệm vụ là một <strong>hoạt động thực tế, hoàn chỉnh</strong>. Thực hiện tự nhiên — các bước chỉ là gợi ý, không phải kịch bản.</p></div>
+    <button class="batch1-toggle" onclick="toggleBatch1(this)">
+      <span><span class="b1-badge">01 – 22</span> <span class="l-en">Show Batch 1 tasks</span><span class="l-vi">Xem nhiệm vụ Đợt 1</span></span>
+      <span class="b1-chevron">▼</span>
+    </button>
+    <div class="batch1-collapsible" id="batch1-collapsible">
+    <button class="expand-all-btn" onclick="toggleAllTasks()"><span class="l-en">Expand all tasks</span><span class="l-vi">Mở rộng tất cả</span></button>
+    <div class="task-list">
+
+      <div class="task-category">🍳 <span class="l-en">Kitchen &amp; Food Prep</span><span class="l-vi">Bếp &amp; Chuẩn Bị Thức Ăn</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">01</span><span class="l-en">Cooking a Simple Dish</span><span class="l-vi">Nấu Một Món Đơn Giản</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen — cook a simple one-pan dish</div><div class="task-tip">⚠️ <strong>Keep it quick:</strong> Choose dishes that don't require long idle waiting (no steaming, stewing, or slow-brewing). Stir-fry, sautéing, or simple egg dishes work well.</div><ol><li>Take ingredients out of a bag and prep them on the cutting board (chop, peel, open containers)</li><li>Heat the pan, add oil, then add ingredients in order</li><li>Stir, season, and cook until done</li><li>Transfer the food to a plate</li><li>Put lids back on containers and rinse the pan</li></ol><div class="objects"><strong>Objects needed:</strong> Pan, spatula, cutting board, knife, oil, 2–3 ingredients, spice jars, plate</div></div>
+          <div class="l-vi"><div class="context">📍 Bếp — nấu một món đơn giản trên chảo</div><div class="task-tip">⚠️ <strong>Chọn món nhanh:</strong> Tránh các món cần chờ lâu (hầm, hấp, ủ trà, pha cà phê nhỏ giọt). Chiên, xào hoặc các món trứng đơn giản là lựa chọn phù hợp.</div><ol><li>Lấy nguyên liệu ra khỏi túi và sơ chế trên thớt (thái, gọt vỏ, mở hộp)</li><li>Làm nóng chảo, cho dầu vào rồi cho nguyên liệu theo thứ tự</li><li>Đảo, nêm gia vị và nấu cho đến khi chín</li><li>Gắp thức ăn ra đĩa</li><li>Đậy nắp lọ lại và tráng chảo</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Chảo, xẻng, thớt, dao, dầu ăn, 2–3 nguyên liệu, lọ gia vị, đĩa</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">02</span><span class="l-en">Making a Hot Drink</span><span class="l-vi">Pha Đồ Uống Nóng</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen — make a cup of coffee or tea from scratch</div><ol><li>Fill the kettle and turn it on (or start the coffee machine)</li><li>Get a cup, add the coffee or tea bag</li><li>Pour the hot water and let it steep or brew</li><li>Add milk and/or sugar as desired</li><li>Stir, remove the tea bag, and set the drink down</li></ol><div class="objects"><strong>Objects needed:</strong> Kettle or coffee machine, cup, coffee/tea, milk, sugar, spoon</div></div>
+          <div class="l-vi"><div class="context">📍 Bếp — pha một tách cà phê hoặc trà từ đầu</div><ol><li>Đổ nước vào ấm và bật lên (hoặc khởi động máy pha cà phê)</li><li>Lấy tách, cho cà phê hoặc túi trà vào</li><li>Rót nước nóng và chờ ngấm</li><li>Thêm sữa và/hoặc đường tùy thích</li><li>Khuấy đều, bỏ túi trà ra và đặt ly xuống</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Ấm đun nước hoặc máy pha cà phê, tách, cà phê/trà, sữa, đường, thìa</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">03</span><span class="l-en">Making a Sandwich</span><span class="l-vi">Làm Bánh Sandwich</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen counter — make a simple sandwich</div><ol><li>Take the bread, fillings, and condiments out</li><li>Spread condiment on both slices of bread</li><li>Layer the fillings on one slice</li><li>Close the sandwich and cut it in half</li><li>Put lids back on jars and containers, and put them away</li></ol><div class="objects"><strong>Objects needed:</strong> Bread, 2–3 fillings (e.g., cheese, vegetables, deli meat), condiment jars, knife, cutting board, plate</div></div>
+          <div class="l-vi"><div class="context">📍 Quầy bếp — làm một chiếc bánh sandwich đơn giản</div><ol><li>Lấy bánh mì, nhân và nước chấm ra</li><li>Phết sốt lên cả hai lát bánh</li><li>Xếp nhân lên một lát bánh</li><li>Úp bánh lại và cắt đôi</li><li>Đậy nắp các lọ và cất vào chỗ cũ</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Bánh mì, 2–3 loại nhân (phô mai, rau củ, thịt nguội), lọ sốt, dao, thớt, đĩa</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">04</span><span class="l-en">Preparing a Packed Lunch</span><span class="l-vi">Chuẩn Bị Hộp Cơm</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen — pack a lunchbox for the day</div><ol><li>Get the lunchbox and open it</li><li>Add a main item (e.g., a sandwich, rice, or leftovers from a container)</li><li>Add a side snack and a small drink or fruit</li><li>Close the lunchbox and any containers used</li><li>Put remaining food back in the fridge or pantry</li></ol><div class="objects"><strong>Objects needed:</strong> Lunchbox, main food item, snack, small drink bottle, storage containers</div></div>
+          <div class="l-vi"><div class="context">📍 Bếp — chuẩn bị hộp cơm cho cả ngày</div><ol><li>Lấy hộp cơm ra và mở nắp</li><li>Cho món chính vào (bánh sandwich, cơm hoặc đồ ăn thừa từ hộp)</li><li>Thêm đồ ăn vặt và chai nước nhỏ hoặc trái cây</li><li>Đóng nắp hộp cơm và các hộp đựng đã dùng</li><li>Cất phần thức ăn còn lại vào tủ lạnh hoặc tủ bếp</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Hộp cơm, món ăn chính, đồ ăn vặt, chai nước nhỏ, hộp đựng thức ăn</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">05</span><span class="l-en">Setting the Table</span><span class="l-vi">Dọn Bàn Ăn</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Dining table — set the table for a meal</div><ol><li>Get plates from the cabinet and place one at each seat</li><li>Add cutlery beside each plate</li><li>Place glasses and pour water from a jug</li><li>Set napkins and any condiments or serving dishes in the center</li><li>Check that everything is in order</li></ol><div class="objects"><strong>Objects needed:</strong> Plates, glasses, cutlery, napkins, jug, condiment bottles</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn ăn — dọn bàn chuẩn bị cho bữa ăn</div><ol><li>Lấy đĩa từ tủ và đặt một cái mỗi chỗ ngồi</li><li>Đặt bộ dao dĩa bên cạnh mỗi đĩa</li><li>Đặt ly và rót nước từ bình</li><li>Đặt khăn ăn và các gia vị hoặc đĩa dùng chung vào giữa bàn</li><li>Kiểm tra lại mọi thứ đã đúng vị trí</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Đĩa, ly, dao dĩa, khăn ăn, bình nước, chai gia vị</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">06</span><span class="l-en">Doing the Dishes</span><span class="l-vi">Rửa Bát Đĩa</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen sink — hand-wash dishes and put them away</div><ol><li>Stack used dishes and bring them to the sink</li><li>Rinse each item under the tap</li><li>Wash with dish soap and a sponge</li><li>Place washed items in the drying rack</li><li>Once dry, put dishes and cutlery back in the cabinet</li></ol><div class="objects"><strong>Objects needed:</strong> Used dishes, glasses, cutlery, dish soap, sponge, drying rack</div></div>
+          <div class="l-vi"><div class="context">📍 Bồn rửa bếp — rửa tay bát đĩa và cất đi</div><ol><li>Chồng bát đĩa bẩn lại và mang ra bồn rửa</li><li>Tráng từng món dưới vòi nước</li><li>Rửa bằng nước rửa chén và miếng bọt biển</li><li>Đặt đồ đã rửa vào giá để khô</li><li>Khi khô, cất bát đĩa và dao dĩa vào tủ</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Bát đĩa bẩn, ly, dao dĩa, nước rửa chén, miếng bọt biển, giá để khô</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">07</span><span class="l-en">Unpacking Groceries</span><span class="l-vi">Dọn Đồ Mua Về</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen — unpack grocery bags into the fridge and pantry</div><ol><li>Put the grocery bags on the counter and take items out one by one</li><li>Sort items into what goes in the fridge and what goes in the pantry</li><li>Put refrigerated items into the fridge in the right spots</li><li>Arrange dry goods on the pantry shelf</li><li>Fold and put away the empty bags</li></ol><div class="objects"><strong>Objects needed:</strong> 2–3 grocery bags with mixed items, fridge, cabinet or shelf</div></div>
+          <div class="l-vi"><div class="context">📍 Bếp — dọn túi đi chợ vào tủ lạnh và tủ bếp</div><ol><li>Đặt túi đi chợ lên quầy và lấy từng món ra</li><li>Phân loại: đồ cần để tủ lạnh và đồ để tủ bếp</li><li>Cho đồ cần lạnh vào tủ lạnh đúng ngăn</li><li>Sắp xếp đồ khô lên kệ tủ bếp</li><li>Gấp túi lại và cất đi</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> 2–3 túi đi chợ có đồ hỗn hợp, tủ lạnh, tủ hoặc kệ bếp</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">08</span><span class="l-en">Stocking and Organizing a Fridge</span><span class="l-vi">Sắp Xếp Tủ Lạnh</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen — reorganize the contents of a fridge</div><ol><li>Take everything out of the fridge and place it on the counter</li><li>Throw away or set aside expired or old items</li><li>Wipe the fridge shelves with a cloth</li><li>Put items back in organized groups (dairy together, produce in the drawer, etc.)</li><li>Close the fridge and put any leftover items back in the pantry</li></ol><div class="objects"><strong>Objects needed:</strong> Fridge with mixed contents, cloth, bin</div></div>
+          <div class="l-vi"><div class="context">📍 Bếp — sắp xếp lại nội dung tủ lạnh</div><ol><li>Lấy tất cả đồ trong tủ lạnh ra và đặt lên quầy</li><li>Loại bỏ hoặc để riêng các món đã hết hạn hoặc cũ</li><li>Lau các ngăn tủ lạnh bằng khăn</li><li>Cho đồ trở lại theo nhóm có tổ chức (sữa chung một chỗ, rau củ vào ngăn kéo, v.v.)</li><li>Đóng tủ lạnh và cất phần còn lại vào tủ bếp</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Tủ lạnh có đồ hỗn hợp, khăn lau, thùng rác</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🏠 <span class="l-en">Home &amp; Bedroom</span><span class="l-vi">Nhà &amp; Phòng Ngủ</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">09</span><span class="l-en">Making a Bed</span><span class="l-vi">Dọn Giường</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Bedroom — strip and remake a bed with fresh linen</div><ol><li>Pull off the pillowcases, duvet cover, and fitted sheet</li><li>Put the fresh fitted sheet on, tucking in all four corners</li><li>Put fresh pillowcases on each pillow</li><li>Put the duvet into the fresh cover and spread it evenly</li><li>Straighten and smooth everything out</li></ol><div class="objects"><strong>Objects needed:</strong> Bed, one set of used linen, one set of fresh linen</div></div>
+          <div class="l-vi"><div class="context">📍 Phòng ngủ — thay ga giường với bộ ga mới</div><ol><li>Kéo bỏ vỏ gối, vỏ chăn và ga trải giường</li><li>Trải ga mới lên, nhét gọn cả bốn góc</li><li>Thay vỏ gối mới cho từng cái gối</li><li>Nhét chăn vào vỏ mới và trải đều ra</li><li>Vuốt phẳng và chỉnh lại cho gọn gàng</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Giường, một bộ ga cũ, một bộ ga mới</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">10</span><span class="l-en">Folding and Putting Away Laundry</span><span class="l-vi">Gấp Quần Áo Và Cất Vào Tủ</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Bedroom or laundry area — fold a pile of clean clothes and put them away</div><ol><li>Pick up the first item from the pile and shake it out</li><li>Fold it and place it in a category stack (shirts, pants, etc.)</li><li>Repeat for all items in the pile</li><li>Open the wardrobe or drawers</li><li>Place each stack in the right compartment and close up</li></ol><div class="objects"><strong>Objects needed:</strong> Pile of 10–15 mixed clean clothes, wardrobe or dresser with drawers</div></div>
+          <div class="l-vi"><div class="context">📍 Phòng ngủ hoặc khu giặt — gấp đống quần áo sạch và cất vào tủ</div><ol><li>Nhặt món đầu tiên từ đống quần áo và rũ ra</li><li>Gấp lại và đặt vào chồng theo loại (áo, quần, v.v.)</li><li>Làm tương tự với tất cả các món còn lại</li><li>Mở tủ quần áo hoặc ngăn kéo</li><li>Đặt từng chồng vào đúng ngăn rồi đóng lại</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Đống 10–15 món quần áo sạch hỗn hợp, tủ quần áo hoặc tủ có ngăn kéo</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">11</span><span class="l-en">Ironing Clothes</span><span class="l-vi">Là Quần Áo</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Ironing board — iron 3–4 garments and hang or fold them</div><ol><li>Set up the ironing board and heat the iron to the right temperature for the fabric</li><li>Lay the first garment flat on the board</li><li>Iron each section (collar, sleeves, front, back) with smooth steady strokes</li><li>Hang or fold the finished garment and move to the next</li><li>Turn off the iron and store it safely when done</li></ol><div class="objects"><strong>Objects needed:</strong> Iron, ironing board, 3–4 garments (shirts, trousers, quần,...)</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn là — là 3–4 món quần áo rồi treo hoặc gấp lại</div><ol><li>Dựng bàn là và điều chỉnh nhiệt độ bàn là phù hợp với chất liệu vải</li><li>Trải phẳng món đầu tiên lên bàn</li><li>Là từng phần (cổ áo, tay áo, mặt trước, mặt sau) với những nét là đều và chắc</li><li>Treo hoặc gấp món vừa là xong rồi chuyển sang món tiếp theo</li><li>Tắt bàn là và cất cẩn thận khi hoàn thành</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Bàn là, bàn để là, 3–4 món quần áo (áo sơ mi, quần dài,...)</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">📦 <span class="l-en">Organization &amp; Storage</span><span class="l-vi">Sắp Xếp &amp; Lưu Trữ</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">12</span><span class="l-en">Stocking a Shelf</span><span class="l-vi">Xếp Hàng Lên Kệ</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Shelf unit — restock products from a box or crate</div><div class="task-tip">⚠️ <strong>Shelf height:</strong> Only use shelves at or below neck height. Shelves above your head will push your hands out of the camera frame.</div><ol><li>Open the box of products on the floor</li><li>Pick up each item, check its label orientation, and place it on the shelf</li><li>Group the same products together and align them neatly</li><li>Adjust existing items to make room where needed</li><li>Flatten the empty box when done</li></ol><div class="objects"><strong>Objects needed:</strong> Shelf unit, 10–15 mixed products (bottles, cans, boxes), cardboard box or crate</div></div>
+          <div class="l-vi"><div class="context">📍 Khu kệ hàng — xếp hàng từ thùng lên kệ</div><div class="task-tip">⚠️ <strong>Chiều cao kệ:</strong> Chỉ sử dụng kệ ngang tầm cổ trở xuống. Kệ cao hơn đầu sẽ khiến tay bạn ra ngoài khung hình camera.</div><ol><li>Mở thùng hàng đặt dưới sàn</li><li>Lấy từng sản phẩm ra, kiểm tra hướng nhãn và đặt lên kệ</li><li>Nhóm các sản phẩm giống nhau lại và sắp xếp ngay ngắn</li><li>Điều chỉnh hàng hiện có để tạo chỗ khi cần</li><li>Làm dẹp thùng carton khi xong</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Kệ hàng, 10–15 sản phẩm hỗn hợp (chai, lon, hộp), thùng carton</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">13</span><span class="l-en">Organizing a Bookshelf</span><span class="l-vi">Sắp Xếp Giá Sách</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Bookshelf — sort and reorganize a shelf of mixed books</div><ol><li>Take all books off the shelf and stack them on a table</li><li>Sort the pile by category, size, or author</li><li>Place books back on the shelf in the chosen order</li><li>Adjust spacing so books stand upright without leaning</li><li>Step back, check alignment, and make final adjustments</li></ol><div class="objects"><strong>Objects needed:</strong> Bookshelf with 15–20 mixed books</div></div>
+          <div class="l-vi"><div class="context">📍 Giá sách — sắp xếp lại một kệ sách hỗn hợp</div><ol><li>Lấy tất cả sách khỏi kệ và xếp lên bàn</li><li>Phân loại đống sách theo chủ đề, kích thước hoặc tác giả</li><li>Đặt sách trở lại kệ theo thứ tự đã chọn</li><li>Điều chỉnh khoảng cách để sách đứng thẳng không bị nghiêng</li><li>Lùi ra nhìn tổng thể và chỉnh lần cuối</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Giá sách với 15–20 cuốn hỗn hợp</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">14</span><span class="l-en">Packing a Shipment Box</span><span class="l-vi">Đóng Gói Hàng Giao</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table or desk — pack items into a shipping box</div><ol><li>Look over the items to be packed and wrap any fragile ones</li><li>Place items into the box, heavier ones first</li><li>Fill in gaps with packing material</li><li>Close and tape the box shut</li><li>Stick a label on the outside</li></ol><div class="objects"><strong>Objects needed:</strong> Shipping box, 4–6 mixed items, bubble wrap or newspaper, tape dispenser, printed label</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn hoặc bàn làm việc — đóng gói hàng vào thùng giao</div><ol><li>Xem lại các món cần đóng gói và bọc bảo vệ đồ dễ vỡ</li><li>Cho đồ vào thùng, đồ nặng xếp xuống dưới trước</li><li>Lấp đầy khoảng trống bằng vật liệu chèn</li><li>Đóng và dán băng keo kín thùng</li><li>Dán nhãn lên mặt ngoài thùng</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Thùng giao hàng, 4–6 món hỗn hợp, bọc khí hoặc giấy báo, súng bắn băng keo, nhãn in sẵn</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">15</span><span class="l-en">Wrapping a Gift</span><span class="l-vi">Gói Quà</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table — wrap a boxed item as a gift</div><ol><li>Cut a piece of wrapping paper to the right size</li><li>Place the box face-down in the center and fold the paper over it</li><li>Tape each fold down neatly</li><li>Attach a ribbon or bow on top</li><li>Write a tag and attach it to the gift</li></ol><div class="objects"><strong>Objects needed:</strong> A box, wrapping paper, scissors, tape, ribbon or bow, gift tag, pen</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn — gói một hộp quà</div><ol><li>Cắt một tờ giấy gói phù hợp với kích thước hộp</li><li>Đặt hộp úp xuống vào giữa tờ giấy và gấp giấy lên</li><li>Dán băng keo từng nếp gấp cho gọn</li><li>Gắn nơ hoặc dây lên trên</li><li>Viết thẻ và đính vào quà</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Hộp, giấy gói quà, kéo, băng keo, nơ hoặc dây, thẻ quà, bút</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🔧 <span class="l-en">Repair &amp; Making</span><span class="l-vi">Sửa Chữa &amp; Lắp Ráp</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">16</span><span class="l-en">Tightening Furniture Screws</span><span class="l-vi">Vặn Vít Đồ Nội Thất</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Floor or table — tighten 6–8 loose screws on a flat-pack furniture panel</div><ol><li>Inspect each joint and identify loose screws</li><li>Select the correct screwdriver size</li><li>Tighten each screw one by one, checking alignment as you go</li><li>Test the panel for wobble and re-tighten any that are still loose</li><li>Return the screwdriver to its place</li></ol><div class="objects"><strong>Objects needed:</strong> Flat-pack furniture panel (shelf, drawer, or box), 6–8 screws, flathead and Phillips screwdrivers</div></div>
+          <div class="l-vi"><div class="context">📍 Sàn hoặc bàn — vặn chặt 6–8 con vít lỏng trên một tấm nội thất lắp ráp</div><ol><li>Kiểm tra từng mối nối và xác định các vít bị lỏng</li><li>Chọn đúng đầu tua vít phù hợp</li><li>Vặn chặt từng vít, kiểm tra độ thẳng trong quá trình làm</li><li>Thử lắc tấm gỗ để kiểm tra và vặn thêm nếu còn lỏng</li><li>Cất tua vít về chỗ cũ</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Tấm nội thất lắp ráp (kệ, ngăn kéo hoặc hộp), 6–8 con vít, tua vít đầu dẹt và đầu chữ thập</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">17</span><span class="l-en">Disassemble, Clean &amp; Reassemble an Object</span><span class="l-vi">Tháo Ra, Lau Sạch &amp; Lắp Lại</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table — fully disassemble a multi-part object, clean each part, then reassemble</div><ol><li>Unscrew or unclip each part and lay them out on the table</li><li>Wipe each part clean with a cloth or sponge</li><li>Dry each part thoroughly</li><li>Reassemble in the correct order, ensuring each part clicks or screws back securely</li><li>Check that the assembled object works correctly</li></ol><div class="objects"><strong>Objects needed:</strong> Multi-part object with 4+ components (e.g. reusable water bottle, manual coffee dripper, multi-part container), cloth or sponge</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn — tháo hoàn toàn một vật có nhiều bộ phận, lau sạch từng phần, rồi lắp lại</div><ol><li>Vặn hoặc tháo kẹp từng bộ phận, đặt chúng ra bàn theo thứ tự</li><li>Lau sạch từng bộ phận bằng khăn hoặc miếng bọt biển</li><li>Lau khô kỹ từng phần</li><li>Lắp lại theo đúng thứ tự, đảm bảo mỗi phần khớp chặt hoặc vặn chắc</li><li>Kiểm tra xem vật đã lắp hoạt động đúng chưa</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Vật dụng có từ 4 bộ phận trở lên (bình nước tái sử dụng, phễu lọc cà phê, hộp đựng nhiều ngăn), khăn hoặc miếng rửa</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">18</span><span class="l-en">Assembling Flat-Pack Furniture</span><span class="l-vi">Lắp Ráp Nội Thất</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Floor — assemble a small flat-pack shelf or storage unit from parts</div><ol><li>Lay out all panels, screws, and fittings and match them to the instruction diagram</li><li>Connect the side panels to the base using bolts and the Allen key</li><li>Attach the back panel</li><li>Insert shelf pegs and lay in the shelves</li><li>Check all joints are tight and the unit stands level</li></ol><div class="objects"><strong>Objects needed:</strong> Flat-pack shelf kit (2–4 panels, bolts, pegs, Allen key), instruction sheet</div></div>
+          <div class="l-vi"><div class="context">📍 Sàn — lắp ráp một kệ nhỏ hoặc tủ đơn giản từ các bộ phận rời</div><ol><li>Bày tất cả tấm gỗ, vít và phụ kiện ra sàn, đối chiếu với sơ đồ hướng dẫn</li><li>Gắn hai tấm bên vào tấm đáy bằng bu-lông và chìa vặn lục giác</li><li>Lắp tấm lưng vào</li><li>Cắm chốt kệ và đặt tấm ngăn vào đúng vị trí</li><li>Kiểm tra tất cả mối nối đã chặt và kệ đứng thẳng</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Bộ kệ lắp ráp đơn giản (2–4 tấm, bu-lông, chốt, chìa lục giác), hướng dẫn lắp ráp</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">19</span><span class="l-en">Assembling a Picture Frame</span><span class="l-vi">Lắp Ráp Khung Ảnh</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table — assemble a multi-part picture frame and prepare it for hanging</div><ol><li>Open the frame and remove all components: glass, backing, clips</li><li>Clean the glass with a cloth</li><li>Place the photo face-up on the backing, then place the glass over it</li><li>Slide everything into the frame and secure the clips</li><li>Attach the hanging hook or stand on the back</li></ol><div class="objects"><strong>Objects needed:</strong> Picture frame with glass, backing and clips, printed photo, cleaning cloth</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn — lắp ráp khung ảnh nhiều bộ phận và chuẩn bị để treo lên tường</div><ol><li>Mở khung và lấy ra tất cả các bộ phận: kính, tấm lưng, kẹp giữ</li><li>Lau sạch kính bằng khăn</li><li>Đặt ảnh úp lên mặt tấm lưng, sau đó đặt kính lên trên</li><li>Lồng tất cả vào khung và cài chặt các kẹp giữ</li><li>Gắn móc treo hoặc chân đứng phía sau</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Khung ảnh có kính, tấm lưng và kẹp, ảnh đã in, khăn lau kính</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">20</span><span class="l-en">Building &amp; Sealing a Cardboard Box</span><span class="l-vi">Dựng Và Dán Băng Hộp Carton</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table or floor — fold a flat cardboard sheet into a box, seal it, and label it</div><ol><li>Score and fold each crease line firmly</li><li>Fold up the four sides and interlock the base flaps</li><li>Reinforce the base seam with tape</li><li>Place items inside, then fold and tape the top flaps shut</li><li>Write the destination label on the outside with a marker</li></ol><div class="objects"><strong>Objects needed:</strong> Flat cardboard sheet (pre-scored), packing tape, tape dispenser, marker, 2–3 small items to pack</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn hoặc sàn — gấp một tờ carton phẳng thành hộp, dán băng keo và dán nhãn</div><ol><li>Gấp mạnh theo từng đường kẻ sẵn trên tờ carton</li><li>Dựng bốn mặt bên lên và lồng các vạt đáy vào nhau</li><li>Dán băng keo gia cố đường đáy</li><li>Cho đồ vào trong, gấp và dán băng keo kín nắp hộp</li><li>Viết nhãn địa chỉ bên ngoài hộp bằng bút dạ</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Tờ carton phẳng (đã kẻ đường gấp sẵn), băng keo đóng gói, cây cắt băng keo, bút dạ, 2–3 món đồ nhỏ</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">21</span><span class="l-en">Folding Origami</span><span class="l-vi">Gấp Origami</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table — fold a sheet of paper into an origami crane or box following step-by-step instructions</div><ol><li>Start with a square sheet and fold diagonally in both directions, then unfold</li><li>Fold horizontally and vertically, then collapse into a flat diamond base</li><li>Fold the side flaps into the centre line on both sides</li><li>Shape the wings and pull apart gently to open the body</li><li>Adjust and flatten the final form</li></ol><div class="objects"><strong>Objects needed:</strong> One square sheet of origami paper (15×15 cm), printed step instructions</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn — gấp một tờ giấy thành hạc hoặc hộp origami theo từng bước hướng dẫn</div><ol><li>Bắt đầu bằng tờ giấy vuông, gấp chéo theo cả hai chiều rồi mở ra</li><li>Gấp ngang và dọc, sau đó ép thành hình thoi dẹt</li><li>Gấp hai vạt bên vào đường trục giữa ở cả hai mặt</li><li>Tạo hình đôi cánh và kéo nhẹ hai bên để mở phần thân</li><li>Chỉnh và ép phẳng hình hoàn chỉnh</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Một tờ giấy origami vuông (15×15 cm), hướng dẫn in sẵn</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num">22</span><span class="l-en">Sewing a Simple Stitch</span><span class="l-vi">Khâu Mũi Đơn Giản</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table — thread a needle and sew a line of running stitches across a piece of fabric</div><ol><li>Cut a length of thread (~50 cm) and pass it through the needle eye</li><li>Tie a knot at the end of the thread</li><li>Mark a straight guideline on the fabric with a pen or chalk</li><li>Sew a row of even running stitches along the line</li><li>Tie off the thread at the end with a finishing knot and trim the excess</li></ol><div class="objects"><strong>Objects needed:</strong> Fabric swatch, needle, thread, scissors, ruler, fabric pen or chalk</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn — xâu chỉ vào kim và khâu một hàng mũi thẳng qua mảnh vải</div><ol><li>Cắt một đoạn chỉ khoảng 50 cm và luồn qua lỗ kim</li><li>Buộc nút ở đầu chỉ</li><li>Kẻ một đường thẳng làm chuẩn trên vải bằng bút hoặc phấn</li><li>Khâu một hàng mũi đều dọc theo đường kẻ</li><li>Buộc nút kết thúc ở cuối đường khâu và cắt phần chỉ thừa</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Mảnh vải nhỏ, kim khâu, chỉ, kéo, thước kẻ, bút hoặc phấn vải</div></div>
+        </div>
+      </div>
+
+    </div>
+    </div><!-- /batch1-collapsible -->
+  </section>
+
+
+  <!-- RECORDING TIPS FOR BATCH 2 -->
+  <section id="tips">
+    <h2><span class="icon">💡</span> <span class="l-en">Recording Tips — Batch 2</span><span class="l-vi">Mẹo Quay Video — Đợt 2</span></h2>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:16px;">These tips come directly from reviewing Batch 1 footage. Apply all of them for Batch 2.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:16px;">Các mẹo này được đúc kết từ việc xem lại video Đợt 1. Áp dụng tất cả cho Đợt 2.</p></div>
+    <div class="tips-list">
+
+      <div class="tip-row">
+        <div class="tip-icon">🪖</div>
+        <div class="tip-text">
+          <div class="l-en"><strong>Wear a hard hat under the mount.</strong> Don't attach the phone mount directly to your head. Put on a hard hat first, then clip the mount onto the hard hat. This raises the phone higher, giving the camera a better downward angle to capture your hands.</div>
+          <div class="l-vi"><strong>Đội mũ bảo hộ trước khi gắn giá đỡ.</strong> Không gắn giá đỡ điện thoại trực tiếp lên đầu. Đội mũ bảo hộ trước, sau đó kẹp giá đỡ lên mũ. Cách này nâng điện thoại lên cao hơn, giúp camera có góc nhìn từ trên xuống tốt hơn để ghi lại đôi tay.</div>
+        </div>
+      </div>
+
+      <div class="tip-row">
+        <div class="tip-icon">👀</div>
+        <div class="tip-text">
+          <div class="l-en"><strong>Your eyes must follow your hands — always.</strong> The biggest issue in Batch 1 was hands leaving the frame. The fix: wherever your hands go, point your face there too. If your hands move left, turn your head left. Do not look at the overall scene — look at your hands.</div>
+          <div class="l-vi"><strong>Mắt phải luôn nhìn theo tay.</strong> Vấn đề lớn nhất trong Đợt 1 là tay ra khỏi khung hình. Cách khắc phục: tay đi đâu, mặt hướng theo đó. Nếu tay di chuyển sang trái, xoay đầu sang trái. Đừng nhìn bao quát cảnh — hãy nhìn vào đôi tay.</div>
+        </div>
+      </div>
+
+      <div class="tip-row">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-text">
+          <div class="l-en"><strong>Move your head deliberately, not your eyes.</strong> We naturally glance with our eyes while keeping our head still. With a head-mounted camera, you must move your <em>whole head</em> to track your hands. It feels unusual at first — that is normal. Practice before recording.</div>
+          <div class="l-vi"><strong>Di chuyển đầu có chủ đích, không chỉ liếc mắt.</strong> Thói quen tự nhiên là liếc mắt trong khi giữ nguyên đầu. Khi đeo camera trên đầu, bạn phải di chuyển <em>cả cái đầu</em> để theo dõi đôi tay. Lúc đầu sẽ cảm thấy lạ — điều đó bình thường. Luyện tập trước khi quay.</div>
+        </div>
+      </div>
+
+      <div class="tip-row">
+        <div class="tip-icon">🏃</div>
+        <div class="tip-text">
+          <div class="l-en"><strong>Work at a natural, confident pace.</strong> Slow or hesitant movements look unnatural in the data. Perform each task the way you would if no one was watching — steady and purposeful. If you make a mistake, just keep going naturally; do not stop and restart unless the whole clip is unusable.</div>
+          <div class="l-vi"><strong>Làm việc với tốc độ tự nhiên, tự tin.</strong> Các chuyển động chậm hoặc do dự trông không tự nhiên trong dữ liệu. Thực hiện mỗi nhiệm vụ như thể không có ai đang xem — đều đặn và có mục đích. Nếu mắc lỗi, cứ tiếp tục tự nhiên; không dừng lại và quay lại từ đầu trừ khi toàn bộ clip không dùng được.</div>
+        </div>
+      </div>
+
+      <div class="tip-row">
+        <div class="tip-icon">🧺</div>
+        <div class="tip-text">
+          <div class="l-en"><strong>Use a table-level surface for ironing.</strong> A standing ironing board puts the ironing surface too low — the camera ends up at a steep angle and hands frequently drop out of frame. Use a table-level ironing board or an ironing mat placed on a table instead.</div>
+          <div class="l-vi"><strong>Dùng bề mặt ngang tầm bàn khi ủi đồ.</strong> Bàn ủi đứng đặt mặt ủi quá thấp — camera bị nghiêng góc lớn và tay thường xuyên ra khỏi khung. Thay vào đó, dùng bàn ủi để bàn hoặc tấm đệm ủi đặt trên mặt bàn.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- BATCH 2 TASKS -->
+  <section id="batch2">
+    <h2><span class="icon">🆕</span> <span class="l-en">Batch 2 Tasks</span><span class="l-vi">Nhiệm Vụ Đợt 2</span></h2>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:8px;">12 new tasks for this round. Same rules apply — perform naturally, keep hands in frame, 1.0x zoom, landscape.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:8px;">12 nhiệm vụ mới cho đợt này. Quy tắc tương tự — thực hiện tự nhiên, giữ tay trong khung, zoom 1.0x, hướng ngang.</p></div>
+    <button class="expand-all-btn" onclick="toggleAllTasks('batch2-list')"><span class="l-en">Expand all</span><span class="l-vi">Mở rộng tất cả</span></button>
+    <div class="task-list" id="batch2-list">
+
+      <div class="task-category">🪑 <span class="l-en">Assembly &amp; Setup</span><span class="l-vi">Lắp Ráp &amp; Cài Đặt</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">23</span><span class="l-en">Assembling an Office Chair</span><span class="l-vi">Lắp Ghế Văn Phòng</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Office floor — assemble a flat-pack office chair from parts</div><ol><li>Lay out all parts and read through the instruction sheet</li><li>Attach the casters (wheels) to the base one by one</li><li>Insert the gas lift column into the center of the base</li><li>Place the seat mechanism onto the gas lift and press down to lock</li><li>Attach the armrests and backrest, tightening all bolts with the Allen key</li></ol><div class="objects"><strong>Objects needed:</strong> Office chair parts (base, seat, backrest, armrests, casters, gas lift), Allen key or screwdriver, instruction sheet</div></div>
+          <div class="l-vi"><div class="context">📍 Sàn văn phòng — lắp ghế văn phòng từ các bộ phận rời</div><ol><li>Trải tất cả bộ phận ra và đọc qua hướng dẫn lắp ráp</li><li>Gắn bánh xe vào chân đế từng cái một</li><li>Cắm trục khí nâng vào giữa chân đế</li><li>Đặt cơ cấu mặt ghế lên trục và ấn xuống để khóa</li><li>Gắn tay vịn và lưng ghế, siết chặt tất cả bu lông bằng lục giác</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Các bộ phận ghế văn phòng (chân đế, mặt ghế, lưng ghế, tay vịn, bánh xe, trục khí), lục giác hoặc tua vít, tờ hướng dẫn</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">24</span><span class="l-en">Setting Up a Meeting Room</span><span class="l-vi">Chuẩn Bị Phòng Họp</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Office meeting room — prepare the room before a meeting</div><ol><li>Arrange chairs around the table to the right number</li><li>Place a notepad and pen at each seat</li><li>Connect the laptop to the projector or TV with an HDMI cable and test the display</li><li>Pour water into glasses or set out water bottles for each attendee</li><li>Write the meeting agenda on the whiteboard or flip chart</li></ol><div class="objects"><strong>Objects needed:</strong> Chairs, notepads, pens, laptop, HDMI cable, projector or TV, water, glasses or bottles, whiteboard and marker</div></div>
+          <div class="l-vi"><div class="context">📍 Phòng họp văn phòng — chuẩn bị phòng trước cuộc họp</div><ol><li>Sắp xếp ghế quanh bàn đúng số lượng người</li><li>Đặt sổ tay và bút tại mỗi chỗ ngồi</li><li>Kết nối máy tính với máy chiếu hoặc TV bằng cáp HDMI và kiểm tra màn hình</li><li>Rót nước vào ly hoặc đặt chai nước cho từng người tham dự</li><li>Viết chương trình họp lên bảng trắng hoặc bảng lật</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Ghế, sổ tay, bút, máy tính xách tay, cáp HDMI, máy chiếu hoặc TV, nước, ly hoặc chai, bảng trắng và bút lông</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">25</span><span class="l-en">Scanning and Organizing Documents</span><span class="l-vi">Scan Và Sắp Xếp Tài Liệu</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Office desk — scan a batch of documents and file them</div><ol><li>Sort documents into two piles: to scan and to file directly</li><li>Open the scanner lid, place the first document face-down, close and press scan</li><li>Feed the remaining documents one by one; check each scan on screen</li><li>Hole-punch the originals using a hole punch</li><li>Sort into labeled folders and place into a binder or filing drawer</li></ol><div class="objects"><strong>Objects needed:</strong> A4 documents (10+), scanner or multifunction printer, hole punch, labeled folders, binder or file drawer</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn văn phòng — scan một loạt tài liệu và lưu trữ</div><ol><li>Phân loại tài liệu thành hai chồng: cần scan và cần lưu trực tiếp</li><li>Mở nắp máy scan, đặt tờ đầu tiên úp mặt xuống, đóng lại và nhấn scan</li><li>Cho lần lượt từng tài liệu vào; kiểm tra từng ảnh scan trên màn hình</li><li>Dùng dập lỗ để đục lỗ các tài liệu gốc</li><li>Sắp xếp vào các folder có nhãn và đặt vào bìa còng hoặc ngăn kéo hồ sơ</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Tài liệu A4 (10 tờ trở lên), máy scan hoặc máy in đa năng, dập lỗ, folder có nhãn, bìa còng hoặc ngăn kéo hồ sơ</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🍳 <span class="l-en">Food &amp; Drink</span><span class="l-vi">Thức Ăn &amp; Đồ Uống</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">26</span><span class="l-en">Making Fried Spring Rolls (Nem Rán)</span><span class="l-vi">Làm Nem Rán</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen — prepare the filling and roll a batch of spring rolls</div><ol><li>Mix the filling: combine minced pork, glass noodles, mushrooms, carrot, and seasoning in a bowl</li><li>Lay a rice paper wrapper on the board, add a spoonful of filling near the bottom edge</li><li>Fold the sides inward, then roll tightly from the bottom up</li><li>Seal the edge with a dab of water or egg wash; repeat for all rolls</li><li>(Optional) Shallow-fry the rolls until golden and drain on paper towels</li></ol><div class="objects"><strong>Objects needed:</strong> Rice paper wrappers, minced pork or chicken, glass noodles, mushrooms, carrot, bowl, tray, pan, oil (optional)</div></div>
+          <div class="l-vi"><div class="context">📍 Bếp — chuẩn bị nhân và gói một mẻ nem rán</div><ol><li>Trộn nhân: cho thịt băm, miến, nấm, cà rốt và gia vị vào bát trộn đều</li><li>Trải vỏ bánh tráng lên thớt, múc một thìa nhân gần mép dưới</li><li>Gập hai cạnh vào trong, rồi cuộn chặt từ dưới lên trên</li><li>Dán mép bằng một chút nước hoặc trứng đánh; lặp lại với tất cả các cái</li><li>(Tuỳ chọn) Chiên nem trong dầu cho đến khi vàng và để ráo dầu trên giấy thấm</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Vỏ bánh tráng, thịt lợn hoặc gà băm, miến, nấm, cà rốt, bát, khay, chảo, dầu ăn (tuỳ chọn)</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">27</span><span class="l-en">Preparing Takeaway Coffee</span><span class="l-vi">Chuẩn Bị Cà Phê Mang Về</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Kitchen counter or café — prepare 2–3 takeaway coffee cups</div><ol><li>Brew the coffee (drip filter, espresso, or strong instant)</li><li>Add ice to each cup, then pour the coffee over</li><li>Add condensed milk or flavoring to taste for each cup</li><li>Seal each cup with a plastic lid or cup sealer</li><li>Push straws through the lids, label each cup with a marker, and pack into a carrier bag</li></ol><div class="objects"><strong>Objects needed:</strong> Coffee, ice, takeaway cups, condensed milk, cup lids or sealer, straws, marker, carrier bag</div></div>
+          <div class="l-vi"><div class="context">📍 Quầy bếp hoặc quán cà phê — chuẩn bị 2–3 ly cà phê mang về</div><ol><li>Pha cà phê (phin, espresso hoặc cà phê hòa tan đặc)</li><li>Cho đá vào từng ly rồi rót cà phê vào</li><li>Thêm sữa đặc hoặc hương vị tùy theo từng ly</li><li>Bịt kín từng ly bằng nắp nhựa hoặc máy dập nắp</li><li>Cắm ống hút qua nắp, ghi tên lên từng ly bằng bút lông và bỏ vào túi mang về</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Cà phê, đá, ly mang về, sữa đặc, nắp ly hoặc máy dập nắp, ống hút, bút lông, túi mang về</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🏠 <span class="l-en">Home Care</span><span class="l-vi">Chăm Sóc Nhà Cửa</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">28</span><span class="l-en">Ironing Clothes (Table Board)</span><span class="l-vi">Là Quần Áo (Bàn Ủi Để Bàn)</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en">
+            <div class="context">📍 Table — iron 2–3 items using a table-level ironing board or mat</div>
+            <div class="task-tip">⚠️ <strong>Use a table-level board or mat.</strong> A standing ironing board puts the surface too low — the camera angle becomes steep and hands go out of frame. Place an ironing mat on a table or use a low board that sits at table height.</div>
+            <ol><li>Set up the iron on a table-level ironing board or mat; select the correct heat setting</li><li>Start with the collar: lay it flat and iron both sides</li><li>Iron the sleeves, then the front and back panels of the shirt</li><li>Hang the finished piece and move to the next item</li><li>Switch off the iron, coil the cord, and put it away safely</li></ol>
+            <div class="objects"><strong>Objects needed:</strong> Iron, table-level ironing board or ironing mat on a table, 2–3 items of clothing, hangers</div>
+          </div>
+          <div class="l-vi">
+            <div class="context">📍 Bàn — ủi 2–3 món quần áo dùng tấm đệm ủi ở mặt bàn</div>
+            <div class="task-tip">⚠️ <strong>Dùng tấm đệm ủi ở mặt bàn.</strong> Bàn ủi đứng đặt mặt quá thấp — góc camera trở nên dốc và tay ra khỏi khung hình. Đặt tấm đệm ủi lên mặt bàn hoặc dùng bàn ủi thấp ngang tầm bàn.</div>
+            <ol><li>Đặt bàn ủi trên tấm đệm ủi mặt bàn; chọn nhiệt độ phù hợp</li><li>Bắt đầu với cổ áo: trải phẳng và ủi cả hai mặt</li><li>Ủi tay áo, rồi đến mặt trước và sau của thân áo</li><li>Treo áo đã ủi lên và chuyển sang món tiếp theo</li><li>Tắt bàn ủi, cuộn dây lại và cất đi an toàn</li></ol>
+            <div class="objects"><strong>Đồ vật cần có:</strong> Bàn ủi, tấm đệm ủi đặt trên mặt bàn hoặc bàn ủi thấp ngang bàn, 2–3 món quần áo, móc áo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">29</span><span class="l-en">Washing Shoes</span><span class="l-vi">Giặt Giày</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Sink or basin — hand-wash a pair of sneakers</div><ol><li>Remove the laces and insoles from both shoes</li><li>Knock off any loose mud or dirt over a bin</li><li>Mix water and cleaning solution in a small basin</li><li>Scrub the shoes with a brush — soles, sides, and the fabric upper</li><li>Rinse with clean water; wash the laces separately, then lay everything flat to air-dry</li></ol><div class="objects"><strong>Objects needed:</strong> Sneakers, shoe brush or old toothbrush, shoe cleaning solution or mild detergent, basin, water, towel</div></div>
+          <div class="l-vi"><div class="context">📍 Bồn hoặc chậu — giặt tay một đôi giày sneaker</div><ol><li>Tháo dây giày và lót giày ra khỏi cả hai chiếc</li><li>Phủi bùn đất thô ra thùng rác</li><li>Pha nước và dung dịch tẩy giày vào chậu nhỏ</li><li>Chà giày bằng bàn chải — đế, hông và phần vải bên ngoài</li><li>Xả lại bằng nước sạch; giặt riêng dây giày, rồi để tất cả phẳng cho khô tự nhiên</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Giày sneaker, bàn chải giày hoặc bàn chải đánh răng cũ, dung dịch tẩy giày hoặc xà phòng nhẹ, chậu, nước, khăn</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">30</span><span class="l-en">Polishing Shoes</span><span class="l-vi">Đánh Giày</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table or floor — polish a pair of leather shoes to a shine</div><ol><li>Wipe the shoes with a dry cloth to remove surface dust</li><li>Apply a thin, even layer of shoe polish with an applicator brush or cloth</li><li>Let the polish absorb for 1–2 minutes</li><li>Buff vigorously with a soft-bristle brush until a shine builds up</li><li>Finish with a clean soft cloth for a final polish; check both shoes are even</li></ol><div class="objects"><strong>Objects needed:</strong> Leather shoes, shoe polish (matching color), applicator brush, buffing brush, soft cloth</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn hoặc sàn — đánh bóng một đôi giày da</div><ol><li>Lau giày bằng khăn khô để loại bỏ bụi bề mặt</li><li>Thoa một lớp xi giày mỏng đều bằng bàn chải hoặc khăn</li><li>Để xi thấm trong 1–2 phút</li><li>Đánh bóng mạnh bằng bàn chải lông mềm cho đến khi bóng lên</li><li>Lau lần cuối bằng khăn mềm sạch; kiểm tra cả hai chiếc đều đẹp như nhau</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Giày da, xi giày (màu phù hợp), bàn chải thoa xi, bàn chải đánh bóng, khăn mềm</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🎁 <span class="l-en">Crafts &amp; Making</span><span class="l-vi">Thủ Công &amp; Chế Tác</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">31</span><span class="l-en">Complex Gift Wrapping with Ribbon</span><span class="l-vi">Gói Quà Phức Tạp Có Nơ</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Table — wrap a box-shaped gift with paper and finish with a ribbon bow</div><ol><li>Measure and cut the wrapping paper to the right size for the box</li><li>Center the box on the paper; fold and crease the sides up tightly</li><li>Tuck and fold the ends neatly and tape them down flat</li><li>Wrap ribbon horizontally then vertically around the box and tie it in a cross at the top</li><li>Tie a bow, then curl the ribbon tails by running them along scissor blades</li></ol><div class="objects"><strong>Objects needed:</strong> Gift box, wrapping paper, ribbon (2 colors or widths), scissors, tape, ruler</div></div>
+          <div class="l-vi"><div class="context">📍 Bàn — gói một hộp quà bằng giấy và hoàn thiện với nơ ruy băng</div><ol><li>Đo và cắt giấy gói vừa đủ kích thước hộp quà</li><li>Đặt hộp vào giữa giấy; gấp và ép hai bên lên chặt tay</li><li>Gấp và nhét gọn hai đầu rồi dán keo phẳng</li><li>Quấn ruy băng theo chiều ngang rồi dọc quanh hộp và buộc thắt chéo ở trên</li><li>Buộc nơ rồi uốn xoăn đầu ruy băng bằng cách kéo dọc lưỡi kéo</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Hộp quà, giấy gói, ruy băng (2 màu hoặc 2 độ rộng), kéo, băng keo, thước kẻ</div></div>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">32</span><span class="l-en">Crocheting</span><span class="l-vi">Móc Len</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Chair or table — crochet a small swatch or simple item from scratch</div><ol><li>Make a starting slip knot and chain 15–20 loops</li><li>Turn and crochet the first row of single crochet stitches across the chain</li><li>Continue for 6–8 rows, turning at the end of each row</li><li>Periodically count stitches and correct any mistakes</li><li>Fasten off on the last row, cut the yarn, and weave in the tail with the hook</li></ol><div class="objects"><strong>Objects needed:</strong> Yarn, crochet hook (size matching yarn label), scissors</div></div>
+          <div class="l-vi"><div class="context">📍 Ghế hoặc bàn — móc một mảnh nhỏ hoặc vật đơn giản từ đầu</div><ol><li>Tạo vòng khởi đầu và móc chuỗi 15–20 mắt xích</li><li>Quay lại và móc hàng đầu tiên với các mũi đơn qua chuỗi</li><li>Tiếp tục 6–8 hàng, quay đầu ở cuối mỗi hàng</li><li>Định kỳ đếm mắt và sửa bất kỳ lỗi nào</li><li>Kết thúc hàng cuối, cắt len và luồn đầu len vào trong bằng móc</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Len, kim móc (cỡ phù hợp với nhãn len), kéo</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🌱 <span class="l-en">Plants &amp; Nature</span><span class="l-vi">Cây Cối &amp; Thiên Nhiên</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">33</span><span class="l-en">Potting a Plant</span><span class="l-vi">Trồng Cây Vào Chậu</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Balcony, garden, or table — repot or plant a new plant in a pot</div><ol><li>Add a layer of pebbles or mesh to the bottom of the pot for drainage</li><li>Fill the pot halfway with fresh potting mix</li><li>Remove the plant from its old pot and gently shake off excess soil from the roots</li><li>Place the plant in the center of the new pot and fill in around the roots with soil</li><li>Pat down gently, water thoroughly, and place the pot in its spot</li></ol><div class="objects"><strong>Objects needed:</strong> Plant, new pot, potting mix, pebbles or mesh, trowel or small shovel, watering can</div></div>
+          <div class="l-vi"><div class="context">📍 Ban công, vườn hoặc bàn — sang chậu hoặc trồng cây mới vào chậu</div><ol><li>Đặt một lớp sỏi hoặc lưới xuống đáy chậu để thoát nước</li><li>Đổ đất trồng mới vào khoảng nửa chậu</li><li>Lấy cây ra khỏi chậu cũ và nhẹ nhàng rũ bỏ đất thừa ở rễ</li><li>Đặt cây vào giữa chậu mới và lấp đất xung quanh rễ</li><li>Ấn nhẹ, tưới thẫm nước và đặt chậu vào vị trí</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Cây, chậu mới, đất trồng cây, sỏi hoặc lưới, xẻng nhỏ, bình tưới nước</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🐾 <span class="l-en">Pet Care</span><span class="l-vi">Chăm Sóc Thú Cưng</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">34</span><span class="l-en">Grooming a Pet</span><span class="l-vi">Chăm Sóc Thú Cưng</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Home — groom a cat or dog (brush, clean ears, trim nails)</div><div class="task-tip">💡 <strong>Tip:</strong> Choose grooming and cleaning actions — brushing, ear cleaning, nail trimming, wiping paws. Avoid clips that are just holding or petting the animal.</div><ol><li>Set out the grooming tools: pet brush, nail clippers, cotton pads, damp cloth</li><li>Brush the coat all over in the direction of hair growth</li><li>Gently clean each ear with a fresh cotton pad</li><li>Trim the nails one by one, being careful not to cut the quick</li><li>Wipe down the paws and face with a damp cloth; reward with a treat</li></ol><div class="objects"><strong>Objects needed:</strong> Pet (cat or dog), pet brush, pet nail clippers, cotton pads, damp cloth, treats</div></div>
+          <div class="l-vi"><div class="context">📍 Nhà — chải lông, vệ sinh tai và cắt móng cho mèo hoặc chó</div><div class="task-tip">💡 <strong>Mẹo:</strong> Chọn các hành động chăm sóc và vệ sinh — chải lông, làm sạch tai, cắt móng, lau chân. Tránh các clip chỉ ôm hoặc vuốt ve thú cưng.</div><ol><li>Bày dụng cụ chải lông ra: lược chải, kéo cắt móng, bông tẩy trang, khăn ẩm</li><li>Chải lông toàn thân theo chiều mọc của lông</li><li>Nhẹ nhàng vệ sinh từng tai bằng bông tẩy trang mới</li><li>Cắt móng từng cái một, cẩn thận không cắt vào phần thịt</li><li>Lau chân và mặt bằng khăn ẩm; thưởng cho thú cưng một miếng ăn</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Thú cưng (mèo hoặc chó), lược chải lông, kéo cắt móng thú cưng, bông tẩy trang, khăn ẩm, đồ ăn thưởng</div></div>
+        </div>
+      </div>
+
+      <div class="task-category">🧹 <span class="l-en">Cleaning &amp; Maintenance</span><span class="l-vi">Vệ Sinh &amp; Bảo Dưỡng</span></div>
+
+      <div class="task-item">
+        <div class="task-header" onclick="toggleTask(this)"><span><span class="task-num b2">35</span><span class="l-en">Washing a Kid's Bicycle</span><span class="l-vi">Rửa Xe Đạp Trẻ Em</span></span><span class="chevron">▼</span></div>
+        <div class="task-body">
+          <div class="l-en"><div class="context">📍 Outdoors, balcony, or bathroom — wash and dry a child's bicycle</div><div class="task-tip">💡 <strong>Tip:</strong> Prop the bike on a low table, stool, or tip it sideways on the ground so the frame is at waist/chest height. This keeps both hands in frame throughout. Do not stand over a bike lying flat on the ground — the camera angle will miss your hands.</div><ol><li>Fill a bucket with soapy water and lay out a sponge, brush, and dry cloth</li><li>Wet the bicycle with water (bucket, hose, or watering can)</li><li>Scrub the frame, handlebars, and seat with the sponge</li><li>Use the brush to clean the wheels, spokes, and hard-to-reach spots</li><li>Rinse thoroughly with clean water</li><li>Wipe the whole bike dry with the cloth</li></ol><div class="objects"><strong>Objects needed:</strong> Kid's bicycle, bucket, dish soap, sponge, brush, dry cloth, water source</div></div>
+          <div class="l-vi"><div class="context">📍 Ngoài trời, ban công hoặc phòng tắm — rửa và lau khô xe đạp trẻ em</div><div class="task-tip">💡 <strong>Mẹo:</strong> Đặt xe lên bàn thấp, ghế đẩu hoặc nghiêng xe sang một bên trên sàn để khung xe ở tầm eo/ngực. Điều này giúp cả hai tay luôn trong khung hình. Không đứng cúi người xuống xe nằm thẳng trên sàn — góc camera sẽ không thấy tay.</div><ol><li>Đổ nước xà phòng vào xô và chuẩn bị mút, bàn chải và khăn khô</li><li>Dùng nước làm ướt xe đạp (xô, vòi hoặc bình tưới)</li><li>Dùng mút kỳ cọ khung xe, tay lái và yên</li><li>Dùng bàn chải vệ sinh bánh xe, căm và các chỗ khó tiếp cận</li><li>Tráng sạch bằng nước</li><li>Dùng khăn lau khô toàn bộ xe</li></ol><div class="objects"><strong>Đồ vật cần có:</strong> Xe đạp trẻ em, xô, nước rửa chén, mút, bàn chải, khăn khô, nguồn nước</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- PROTOCOL -->
+  <section id="protocol">
+    <h2><span class="icon">🎥</span> <span class="l-en">Recording Protocol</span><span class="l-vi">Quy Trình Quay</span></h2>
+
+    <div class="trial-box">
+      <div class="trial-title">🧪 <span class="l-en">Do a trial recording first</span><span class="l-vi">Quay thử trước khi quay thật</span></div>
+      <div class="l-en"><p>Before your real session, do one short trial recording of any task. Play it back and check: are both hands visible? Is the frame stable? Is the zoom at 1.0x? Fix any issues before recording for real.</p></div>
+      <div class="l-vi"><p>Trước buổi quay chính thức, hãy quay thử một clip ngắn với bất kỳ nhiệm vụ nào. Xem lại và kiểm tra: cả hai tay có hiện rõ không? Khung hình có ổn định không? Zoom có đang ở 1.0x không? Khắc phục mọi vấn đề trước khi quay thật.</p></div>
+    </div>
+
+    <h3><span class="l-en">Camera settings</span><span class="l-vi">Cài đặt camera</span></h3>
+    <div class="l-en"><p style="font-size:14px;color:#555;margin-bottom:10px;">Set these before every session. Do not record in 4K — file sizes become unmanageable.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;margin-bottom:10px;">Cài đặt trước mỗi buổi quay. Không quay 4K — dung lượng file quá lớn.</p></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('iphone', this)">iPhone</button>
+      <button class="tab-btn" onclick="switchTab('android', this)">Android</button>
+    </div>
+    <div id="tab-iphone" class="tab-panel active">
+      <ul class="l-en">
+        <li>Settings → Camera → Record Video → set to <strong>1080p HD at 30 fps</strong></li>
+        <li>In the camera app, tap the <strong>1.0x</strong> button to confirm you are on the main lens. Do <strong>not</strong> use 0.5x (ultrawide).</li>
+        <li>Settings → Camera → Formats → set to <strong>High Efficiency</strong></li>
+        <li>Free up at least <strong>5–10 GB</strong> of storage before starting</li>
+      </ul>
+      <ul class="l-vi">
+        <li>Cài đặt → Camera → Quay video → chọn <strong>1080p HD ở 30 fps</strong></li>
+        <li>Trong ứng dụng camera, nhấn nút <strong>1.0x</strong> để xác nhận đang dùng ống kính chính. <strong>Không</strong> dùng 0.5x (góc siêu rộng).</li>
+        <li>Cài đặt → Camera → Định dạng → chọn <strong>High Efficiency</strong></li>
+        <li>Giải phóng ít nhất <strong>5–10 GB</strong> bộ nhớ trước khi bắt đầu</li>
+      </ul>
+    </div>
+    <div id="tab-android" class="tab-panel">
+      <ul class="l-en">
+        <li>Camera settings → Video resolution → set to <strong>FHD (1080p) at 30fps</strong></li>
+        <li>Tap the zoom selector in the camera app and confirm it shows <strong>1.0x</strong>. Do <strong>not</strong> use 0.5x (ultrawide).</li>
+        <li>Free up at least <strong>5–10 GB</strong> of storage before starting</li>
+      </ul>
+      <ul class="l-vi">
+        <li>Cài đặt camera → Độ phân giải video → chọn <strong>FHD (1080p) ở 30fps</strong></li>
+        <li>Nhấn vào nút chọn zoom trong ứng dụng camera và xác nhận hiển thị <strong>1.0x</strong>. <strong>Không</strong> dùng 0.5x (góc siêu rộng).</li>
+        <li>Giải phóng ít nhất <strong>5–10 GB</strong> bộ nhớ trước khi bắt đầu</li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top:24px;"><span class="l-en">Session structure</span><span class="l-vi">Cấu trúc buổi quay</span></h3>
+    <div class="card" style="padding-top:16px;padding-bottom:16px;">
+      <ol class="l-en" style="margin-bottom:0;">
+        <li><strong>Setup</strong> — mount the camera, check lighting and noise, arrange objects in the starting position</li>
+        <li><strong>Start recording</strong> — press record before beginning the task</li>
+        <li><strong>Perform the task</strong> — work naturally from start to finish</li>
+        <li><strong>End recording</strong> — hold still for 2 seconds after finishing, then stop</li>
+        <li><strong>Upload</strong> — upload the clip to the shared Google Drive folder before moving on</li>
+      </ol>
+      <ol class="l-vi" style="margin-bottom:0;">
+        <li><strong>Chuẩn bị</strong> — gắn camera, kiểm tra ánh sáng và tiếng ồn, sắp xếp đồ vật ở vị trí bắt đầu</li>
+        <li><strong>Bắt đầu quay</strong> — nhấn quay trước khi bắt đầu nhiệm vụ</li>
+        <li><strong>Thực hiện nhiệm vụ</strong> — làm tự nhiên từ đầu đến cuối</li>
+        <li><strong>Kết thúc quay</strong> — đứng yên 2 giây sau khi hoàn thành rồi mới dừng quay</li>
+        <li><strong>Tải lên</strong> — tải clip lên thư mục Google Drive chung trước khi chuyển sang clip tiếp theo</li>
+      </ol>
+    </div>
+    <div class="l-en"><p style="font-size:14px;color:#555;">Target: <strong>2 clips per task</strong>. If a clip doesn't go well, redo it and upload only the good take.</p></div>
+    <div class="l-vi"><p style="font-size:14px;color:#555;">Mục tiêu: <strong>2 clip mỗi nhiệm vụ</strong>. Nếu clip không ổn, quay lại và chỉ tải lên take tốt.</p></div>
+  </section>
+
+  <!-- SUBMISSION -->
+  <section id="submission">
+    <h2><span class="icon">📤</span> <span class="l-en">Submission</span><span class="l-vi">Nộp Clip</span></h2>
+    <div class="submission-box">
+      <div class="l-en">
+        <p>Upload your clips to the shared Google Drive folder after each session.</p>
+        <p>Name each file: <code>yourname_taskname_01.mp4</code><br>e.g. <code>yourname_making_a_sandwich_01.mp4</code></p>
+        <p style="margin-bottom:0;">The Drive link will be shared with you before you begin.</p>
+      </div>
+      <div class="l-vi">
+        <p>Tải clip lên thư mục Google Drive chung sau mỗi buổi quay.</p>
+        <p>Đặt tên file theo định dạng: <code>tên_nhiệmvụ_01.mp4</code><br>Ví dụ: <code>nam_lam_banh_sandwich_01.mp4</code></p>
+        <p style="margin-bottom:0;">Link Drive sẽ được chia sẻ trước khi bạn bắt đầu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section id="privacy">
+    <h2><span class="icon">🔒</span> <span class="l-en">Privacy</span><span class="l-vi">Quyền Riêng Tư</span></h2>
+    <div class="warning">
+      <div class="warning-title">⚠️ <span class="l-en">Please Read Carefully</span><span class="l-vi">Vui Lòng Đọc Kỹ</span></div>
+      <div class="l-en">
+        <p style="margin-bottom:12px;color:#444;">Your footage will be used for AI training purposes. Follow these rules strictly during every recording:</p>
+        <ul>
+          <li><strong>No other people in the frame</strong> — make sure no one else appears on screen while you are recording</li>
+          <li><strong>No faces</strong> — if a face appears accidentally, flag the clip when you upload it</li>
+          <li><strong>No personal information visible</strong> — remove or cover any name tags, ID cards, documents, or screens that show personal data before you start recording</li>
+        </ul>
+      </div>
+      <div class="l-vi">
+        <p style="margin-bottom:12px;color:#444;">Video của bạn sẽ được dùng cho mục đích huấn luyện AI. Tuân thủ nghiêm ngặt các quy tắc sau trong mọi buổi quay:</p>
+        <ul>
+          <li><strong>Không có người khác trong khung hình</strong> — đảm bảo không ai khác xuất hiện trên màn hình khi bạn đang quay</li>
+          <li><strong>Không có khuôn mặt</strong> — nếu khuôn mặt xuất hiện tình cờ, hãy đánh dấu clip khi tải lên</li>
+          <li><strong>Không để lộ thông tin cá nhân</strong> — cất hoặc che các thẻ tên, CMND, tài liệu hoặc màn hình hiển thị dữ liệu cá nhân trước khi quay</li>
+        </ul>
+      </div>
+      <div class="non-neg"><span class="l-en">These rules are non-negotiable. Clips that violate them cannot be used and will be discarded.</span><span class="l-vi">Các quy tắc này không có ngoại lệ. Clip vi phạm sẽ không được sử dụng và sẽ bị loại bỏ.</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h2><span class="icon">💬</span> FAQ</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">What if I make a mistake mid-task?</span><span class="l-vi">Nếu tôi làm sai giữa chừng thì sao?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Stop the recording, reset to the starting position, and redo the clip from the beginning. Only upload the clean take.</span><span class="l-vi">Dừng quay, đặt lại đồ vật về vị trí ban đầu và quay lại từ đầu. Chỉ tải lên take sạch.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">Can someone else be in the room while I record?</span><span class="l-vi">Có ai khác có thể ở trong phòng khi tôi quay không?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Yes, but they must stay completely out of frame at all times.</span><span class="l-vi">Có, nhưng họ phải đứng hoàn toàn ngoài khung hình trong suốt buổi quay.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">Do I need to show my face?</span><span class="l-vi">Tôi có cần để lộ khuôn mặt không?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">No. The camera should face forward and downward toward your hands and workspace — your face should never appear in the recording.</span><span class="l-vi">Không. Camera phải hướng về phía trước và chúc xuống về phía tay và khu vực làm việc — khuôn mặt bạn không được xuất hiện trong video.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">Why must I use 1.0x zoom and not 0.5x?</span><span class="l-vi">Tại sao phải dùng zoom 1.0x chứ không phải 0.5x?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">The 0.5x (ultrawide) lens has significant barrel distortion that makes it unsuitable for AI training data. The 1.0x main lens gives a natural, undistorted field of view that matches how robots perceive depth and distance.</span><span class="l-vi">Ống kính 0.5x (góc siêu rộng) bị méo hình đáng kể, không phù hợp cho dữ liệu huấn luyện AI. Ống kính chính 1.0x cho góc nhìn tự nhiên, không méo — phù hợp với cách robot nhận thức chiều sâu và khoảng cách.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">What if my phone runs out of storage mid-session?</span><span class="l-vi">Nếu điện thoại hết bộ nhớ giữa buổi quay thì sao?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Stop, upload what you have, free up space, and continue. Always check storage before you start to avoid this.</span><span class="l-vi">Dừng lại, tải lên những gì đã quay, xóa bớt để giải phóng bộ nhớ rồi tiếp tục. Luôn kiểm tra bộ nhớ trước khi bắt đầu để tránh tình huống này.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">What if I don't have the exact objects listed for a task?</span><span class="l-vi">Nếu tôi không có đúng đồ vật được liệt kê cho nhiệm vụ thì sao?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Use whatever you have that matches the category. Any real pan, any real jar, any real book — the specific brand or type doesn't matter.</span><span class="l-vi">Dùng đồ bạn có miễn là phù hợp với danh mục. Bất kỳ cái chảo, lọ, cuốn sách nào cũng được — thương hiệu hay loại cụ thể không quan trọng.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">How many clips do I need to record?</span><span class="l-vi">Tôi cần quay bao nhiêu clip?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">2 clips per task assigned to you.</span><span class="l-vi">2 clip cho mỗi nhiệm vụ được giao.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">Can I talk or make sounds while recording?</span><span class="l-vi">Tôi có thể nói chuyện hoặc tạo tiếng động khi quay không?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Yes — natural sounds are fine and actually useful. Just don't narrate or explain what you're doing to the camera. Work as if the camera isn't there.</span><span class="l-vi">Có — âm thanh tự nhiên ổn và thực ra còn hữu ích. Chỉ cần không bình luận hay giải thích những gì bạn đang làm với camera. Làm việc như thể camera không có ở đó.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">What if my phone screen turns off mid-recording?</span><span class="l-vi">Nếu màn hình điện thoại tắt trong khi đang quay thì sao?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a">
+          <span class="l-en">Most camera apps continue recording even when the screen turns off. To be safe, disable auto-lock before your session.<br><br>iPhone: Settings → Display &amp; Brightness → Auto-Lock → Never<br>Android: Settings → Display → Screen timeout → set to maximum<br><br>Remember to turn it back on after your session.</span>
+          <span class="l-vi">Hầu hết ứng dụng camera vẫn tiếp tục quay khi màn hình tắt. Để chắc chắn, hãy tắt tự động khóa màn hình trước buổi quay.<br><br>iPhone: Cài đặt → Màn hình &amp; Độ sáng → Tự động khóa → Không bao giờ<br>Android: Cài đặt → Màn hình → Thời gian chờ → đặt tối đa<br><br>Nhớ bật lại sau khi quay xong.</span>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">Can I choose which tasks to record?</span><span class="l-vi">Tôi có thể chọn nhiệm vụ để quay không?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Yes — you can pick from the task list. However, to keep the dataset varied, each task can be recorded by a maximum of 2 people. Check the sign-up sheet to confirm your chosen tasks are still available.</span><span class="l-vi">Có — bạn có thể chọn từ danh sách nhiệm vụ. Tuy nhiên, để đảm bảo dữ liệu đa dạng, mỗi nhiệm vụ tối đa 2 người quay. Kiểm tra bảng đăng ký để xác nhận nhiệm vụ bạn chọn còn chỗ.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">My clip is too large to upload — what do I do?</span><span class="l-vi">Clip của tôi quá lớn để tải lên thì sao?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">This shouldn't happen if you're recording at 1080p. Check your camera settings — you may have accidentally recorded in 4K. Re-record at the correct resolution and contact the project lead if the issue persists.</span><span class="l-vi">Điều này không nên xảy ra nếu bạn đang quay ở 1080p. Kiểm tra cài đặt camera — có thể bạn đã vô tình quay ở 4K. Quay lại ở độ phân giải đúng và liên hệ người quản lý dự án nếu vấn đề tiếp tục.</span></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span><span class="l-en">Should I delete the clips from my phone after uploading?</span><span class="l-vi">Tôi có nên xóa clip khỏi điện thoại sau khi tải lên không?</span></span><span class="chevron">▼</span></div>
+        <div class="faq-a"><span class="l-en">Please keep the clips on your phone for now. Once the sample dataset has been finalized and sent to OpenAI, we'll let you know when it's safe to delete them.</span><span class="l-vi">Hãy giữ clip trên điện thoại trong thời gian này. Khi bộ dữ liệu mẫu được hoàn thiện và gửi cho OpenAI, chúng tôi sẽ thông báo khi nào có thể xóa an toàn.</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function toggleLang() {
+    const isVi = document.body.classList.toggle('vi');
+    document.getElementById('lang-btn').textContent = isVi ? '🇬🇧 English' : '🇻🇳 Tiếng Việt';
+    document.documentElement.lang = isVi ? 'vi' : 'en';
+  }
+
+  function toggleTask(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+  }
+
+  function toggleBatch1(btn) {
+    btn.classList.toggle('open');
+    document.getElementById('batch1-collapsible').classList.toggle('open');
+  }
+
+  let allExpanded = false;
+  function toggleAllTasks(listId) {
+    const container = listId ? document.getElementById(listId) : document;
+    const headers = container.querySelectorAll('.task-header');
+    const bodies = document.querySelectorAll('.task-body');
+    allExpanded = !allExpanded;
+    headers.forEach(h => allExpanded ? h.classList.add('open') : h.classList.remove('open'));
+    bodies.forEach(b => allExpanded ? b.classList.add('open') : b.classList.remove('open'));
+    document.querySelector('.expand-all-btn').textContent = allExpanded ? '▲ Collapse all' : '▼ Expand all tasks';
+  }
+
+  function toggleFaq(q) {
+    q.classList.toggle('open');
+    q.nextElementSibling.classList.toggle('open');
+  }
+
+  function toggleCheck(li) {
+    const cb = li.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+    li.classList.toggle('checked', cb.checked);
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  // Load TikTok thumbnails via oEmbed (always fresh)
+  const TIKTOK_VIDEOS = [
+    { id: 'tt-thumb-1', url: 'https://www.tiktok.com/@ragadioedz/video/7649622054798593300' },
+    { id: 'tt-thumb-2', url: 'https://www.tiktok.com/@daleballesteros/video/7621106943804919060' },
+    { id: 'tt-thumb-3', url: 'https://www.tiktok.com/@lractoolsnamadami/video/7620714892789550356' },
+  ];
+  async function loadTikTokThumbs() {
+    for (const v of TIKTOK_VIDEOS) {
+      try {
+        const res = await fetch('https://www.tiktok.com/oembed?url=' + encodeURIComponent(v.url));
+        const data = await res.json();
+        const img = document.getElementById(v.id);
+        if (img && data.thumbnail_url) {
+          img.src = data.thumbnail_url;
+          img.onload = () => img.classList.remove('loading');
+        }
+      } catch(e) {}
+    }
+  }
+  document.addEventListener('DOMContentLoaded', loadTikTokThumbs);
+</script>
+</body>
+</html>
